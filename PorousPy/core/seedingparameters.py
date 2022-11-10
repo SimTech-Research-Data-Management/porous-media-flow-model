@@ -1,15 +1,17 @@
 import sdRDM
 
 from typing import Optional, Union
-from typing import Optional
 from pydantic import PrivateAttr
-from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+from pydantic import Field
+from typing import Optional
 
 
 @forge_signature
 class SeedingParameters(sdRDM.DataModel):
+
     """This is a container for information regarding of the used seeding particles."""
 
     id: str = Field(
@@ -17,17 +19,24 @@ class SeedingParameters(sdRDM.DataModel):
         default_factory=IDGenerator("seedingparametersINDEX"),
         xml="@id",
     )
+    material: str = Field(
+        ...,
+        description="Name of the seeding material",
+    )
 
-    material: str = Field(..., description="Name of the seeding material")
-
-    type: str = Field(..., description="Solid or liquid particles?")
+    type: str = Field(
+        ...,
+        description="Solid or liquid particles?",
+    )
 
     density: float = Field(
-        ..., description="Value of the seeding particle density in kg/m^3"
+        ...,
+        description="Value of the seeding particle density in kg/m^3",
     )
 
     particle_size: float = Field(
-        ..., description="Value or span of the seeding particle diameter in m"
+        ...,
+        description="Value or span of the seeding particle diameter in m",
     )
 
     kinematic_viscosity: Optional[float] = Field(
@@ -35,10 +44,4 @@ class SeedingParameters(sdRDM.DataModel):
         default=None,
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
-    )
-
-    __commit__: Optional[str] = PrivateAttr(
-        default="53d30eba563d0bc6bcf3db15575fa61d02387eb0"
-    )
+    __repo__: Optional[str] = PrivateAttr(default="None")

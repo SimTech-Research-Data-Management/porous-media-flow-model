@@ -2,9 +2,10 @@ import sdRDM
 
 from typing import Optional, Union
 from pydantic import PrivateAttr
-from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+from pydantic import Field
 
 from .software import Software
 from .video import Video
@@ -17,11 +18,14 @@ class ProcessStep(sdRDM.DataModel):
         default_factory=IDGenerator("processstepINDEX"),
         xml="@id",
     )
-
-    name: str = Field(..., description="Name of the processing step")
+    name: str = Field(
+        ...,
+        description="Name of the processing step",
+    )
 
     processed_video: Video = Field(
-        description="Resulting video from the processing", default=None
+        description="Resulting video from the processing",
+        default=None,
     )
 
     software: Software = Field(
@@ -29,10 +33,4 @@ class ProcessStep(sdRDM.DataModel):
         default=None,
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
-    )
-
-    __commit__: Optional[str] = PrivateAttr(
-        default="53d30eba563d0bc6bcf3db15575fa61d02387eb0"
-    )
+    __repo__: Optional[str] = PrivateAttr(default="None")

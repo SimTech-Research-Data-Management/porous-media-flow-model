@@ -8,8 +8,10 @@ classDiagram
     Root *-- FreeFlow
     Root *-- Measurement
     Measurement *-- Recording
+    Measurement *-- Model
     Measurement *-- Video
     Measurement *-- ProcessStep
+    Video *-- Camera
     ProcessStep *-- Video
     ProcessStep *-- Software
     Hardware *-- Camera
