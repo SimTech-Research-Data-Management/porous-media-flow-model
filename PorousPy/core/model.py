@@ -1,19 +1,17 @@
 import sdRDM
 
 from typing import Optional, Union
+from typing import Optional
 from pydantic import PrivateAttr
+from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
-from typing import Optional
 
 from .porousmediaparameters import PorousMediaParameters
 
 
 @forge_signature
 class Model(sdRDM.DataModel):
-
     """This is a container for information about a possible object in/adjascent to the free flow
     """
 
@@ -22,6 +20,7 @@ class Model(sdRDM.DataModel):
         default_factory=IDGenerator("modelINDEX"),
         xml="@id",
     )
+
     type: str = Field(
         ...,
         description=(
@@ -39,13 +38,13 @@ class Model(sdRDM.DataModel):
     )
 
     porous_media: Optional[PorousMediaParameters] = Field(
-        description="Description of porous media parameters",
-        default=None,
+        description="Description of porous media parameters", default=None
     )
 
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
+
     __commit__: Optional[str] = PrivateAttr(
         default="53d30eba563d0bc6bcf3db15575fa61d02387eb0"
     )

@@ -1,15 +1,14 @@
 import sdRDM
 
 from typing import Optional, Union
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
-from pydantic import validator
 from typing import List
 from typing import Optional
 from typing import Union
+from pydantic import PrivateAttr
+from pydantic import Field
+from pydantic import validator
+from sdRDM.base.listplus import ListPlus
+from sdRDM.base.utils import forge_signature, IDGenerator
 
 from .processstep import ProcessStep
 from .recording import Recording
@@ -24,10 +23,8 @@ class Measurement(sdRDM.DataModel):
         default_factory=IDGenerator("measurementINDEX"),
         xml="@id",
     )
-    name: str = Field(
-        ...,
-        description="Name of the experiment",
-    )
+
+    name: str = Field(..., description="Name of the experiment")
 
     recording: Optional[Recording] = Field(
         description="Recordings that have been done in the course of the experiment",
@@ -35,13 +32,11 @@ class Measurement(sdRDM.DataModel):
     )
 
     model: Union[str, "Model", None] = Field(
-        description="ID of the model that has been used",
-        default=None,
+        description="ID of the model that has been used", default=None
     )
 
     raw_video: Optional[Video] = Field(
-        description="Raw video data of the flow measurement",
-        default=None,
+        description="Raw video data of the flow measurement", default=None
     )
 
     processing_steps: List[ProcessStep] = Field(
@@ -52,6 +47,7 @@ class Measurement(sdRDM.DataModel):
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
+
     __commit__: Optional[str] = PrivateAttr(
         default="53d30eba563d0bc6bcf3db15575fa61d02387eb0"
     )
@@ -67,9 +63,17 @@ class Measurement(sdRDM.DataModel):
         Adds an instance of 'ProcessStep' to the attribute 'processing_steps'.
 
         Args:
+
+
             id (str): Unique identifier of the 'ProcessStep' object. Defaults to 'None'.
+
+
             name (str): Name of the processing step.
+
+
             processed_video (Video): Resulting video from the processing.
+
+
             software (Software): Software that has been used to perform the processing step.
         """
 
@@ -78,18 +82,28 @@ class Measurement(sdRDM.DataModel):
             "processed_video": processed_video,
             "software": software,
         }
-
         if id is not None:
             params["id"] = id
-
         processing_steps = [ProcessStep(**params)]
-
         self.processing_steps = self.processing_steps + processing_steps
 
     @validator("model", pre=True)
     def get_model_reference(cls, value):
         """Extracts the ID from a given object to create a reference"""
+        from .model import Model
 
+        if not isinstance(value, (Model, str)):
+            raise TypeError(
+                f"Expected 'Model' or 'str' got '{type(value).__name__}' instead."
+            )
+        elif isinstance(value, Model):
+            return value.id
+        elif isinstance(value, str):
+            return value
+
+    @validator("model", pre=True)
+    def get_model_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
         from .model import Model
 
         if not isinstance(value, (Model, str)):
