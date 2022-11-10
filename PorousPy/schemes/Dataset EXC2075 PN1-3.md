@@ -1,6 +1,5 @@
 ```mermaid
 classDiagram
-    direction LR
     Device <-- Camera
     Device <-- Laser
     Device <-- Seeding
