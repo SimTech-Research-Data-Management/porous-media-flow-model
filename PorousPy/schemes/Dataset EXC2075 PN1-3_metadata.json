@@ -1,0 +1,342 @@
+{
+  "docstring": "This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this document is to define a data storage standard for Particle Image Velocimetry (PIV) recordings. The data model is still under developement.",
+  "enums": [],
+  "external": {},
+  "Root": {
+    "attributes": {
+      "description": {
+        "description": "Describes the content of the dataset"
+      },
+      "name": {
+        "description": "Descriptive name of the dataset / ID"
+      },
+      "date": {
+        "description": "Date/time when the dataset was created"
+      },
+      "authors": {
+        "multiple": "True",
+        "description": "Persons who worked on the dataset"
+      },
+      "subjects": {
+        "multiple": "True",
+        "description": "Research subjects covered by the dataset"
+      },
+      "keywords": {
+        "multiple": "True",
+        "description": "Descriptive keywords to describe the datase (examples:PIV, time-resolved, time-averaged)"
+      },
+      "devices": {
+        "description": "Devices used in this experiment",
+        "multiple": "True"
+      },
+      "free_flow": {
+        "description": "Free flow of the measurement"
+      },
+      "measurements": {
+        "description": "Contains all measurements done in this experiment",
+        "multiple": "True"
+      }
+    },
+    "docstring": "This is a container for general information about the dataset. Please describe your dataset in detail here.\n"
+  },
+  "Author": {
+    "attributes": {
+      "name": {
+        "description": "Full name of the author"
+      },
+      "affiliation": {
+        "description": "Organisation the author is affiliated with"
+      },
+      "email": {
+        "description": "Contact e-mail adress of the author"
+      },
+      "phone": {
+        "description": "Contact phone number of the author"
+      }
+    },
+    "docstring": "This is a container for information regarding persons who worked on the dataset or created it.\n"
+  },
+  "Measurement": {
+    "attributes": {
+      "name": {
+        "description": "Name of the experiment"
+      },
+      "recording": {
+        "description": "Recordings that have been done in the course of the experiment"
+      },
+      "model": {
+        "description": "ID of the model that has been used"
+      },
+      "raw_video": {
+        "description": "Raw video data of the flow measurement"
+      },
+      "processing_steps": {
+        "description": "Processed video data of the flow measurement",
+        "multiple": "True"
+      }
+    },
+    "docstring": null
+  },
+  "Video": {
+    "attributes": {
+      "camera_id": {
+        "description": "ID of the camera that has been used"
+      },
+      "height": {
+        "description": "Height of the image"
+      },
+      "width": {
+        "description": "Width of the image"
+      },
+      "total_frames": {
+        "description": "Number of frames found in this video"
+      },
+      "frames": {
+        "description": "Videoframes"
+      }
+    },
+    "docstring": null
+  },
+  "ProcessStep": {
+    "attributes": {
+      "name": {
+        "description": "Name of the processing step"
+      },
+      "processed_video": {
+        "description": "Resulting video from the processing"
+      },
+      "software": {
+        "description": "Software that has been used to perform the processing step"
+      }
+    },
+    "docstring": null
+  },
+  "Hardware": {
+    "attributes": {
+      "camera": {
+        "multiple": "True",
+        "description": "Description of the used camera system"
+      },
+      "laser": {
+        "multiple": "True",
+        "description": "Description of the used laser system"
+      },
+      "seeding": {
+        "description": "Description of the used seeding device and seeding material"
+      },
+      "optics": {
+        "multiple": "True",
+        "description": "Description of the used optical devices (laserarm, lenses, beamsplitter, sheet optics, ...)"
+      },
+      "triggering": {
+        "description": "Description of the used triggering devices"
+      }
+    },
+    "docstring": "This is a container for general information about the hardware which was used to capture the PIV data.\n"
+  },
+  "Device": {
+    "attributes": {
+      "manufacturer": {
+        "description": "Name of the device's manufacturer"
+      },
+      "model": {
+        "description": "Name of the device's model"
+      }
+    },
+    "docstring": "This is a container for information regarding of general devices. For now it only applies to \"Hardware-optics\" but it could be for more.\n"
+  },
+  "Camera": {
+    "attributes": {
+      "lens": {
+        "description": "Name of the camera lens"
+      },
+      "sensor": {
+        "description": "Description of the camera sensor"
+      }
+    },
+    "docstring": "This is a container for information regarding cameras which were used within the dataset.\n"
+  },
+  "Laser": {
+    "attributes": {
+      "wavelength": {
+        "description": "Value of the used wavelength"
+      },
+      "type": {
+        "description": "Pulsed or continous wave laser?"
+      },
+      "power": {
+        "description": "value of the laser power"
+      }
+    },
+    "docstring": "This is a container for information regarding lasers which were used within the dataset.\n"
+  },
+  "Seeding": {
+    "attributes": {
+      "particles": {
+        "description": "Seeding parameters of the used seeding material"
+      }
+    },
+    "docstring": "This is a container for information regarding of the seeding device which was used within the dataset.\n"
+  },
+  "SeedingParameters": {
+    "attributes": {
+      "material": {
+        "description": "Name of the seeding material"
+      },
+      "type": {
+        "description": "Solid or liquid particles?"
+      },
+      "density": {
+        "description": "Value of the seeding particle density in kg/m^3"
+      },
+      "particle_size": {
+        "description": "Value or span of the seeding particle diameter in m"
+      },
+      "kinematic_viscosity": {
+        "description": "Value of the seeding particle kinematic viscosity in m^2/s"
+      }
+    },
+    "docstring": "This is a container for information regarding of the used seeding particles.\n"
+  },
+  "Triggering": {
+    "attributes": {
+      "recording_mode": {
+        "description": "Type of recording mode (time-based, cyclic time-based, ...)"
+      }
+    },
+    "docstring": "This is a container for information regarding of the used triggering system.\n"
+  },
+  "Software": {
+    "attributes": {
+      "manufacturer": {
+        "description": "Name of the used recording software manufacturer"
+      },
+      "name": {
+        "description": "Name of the used recording software"
+      },
+      "version": {
+        "description": "Version of the used recording software"
+      }
+    },
+    "docstring": "This is a container for general information about the used software.\n"
+  },
+  "FreeFlow": {
+    "attributes": {
+      "shape": {
+        "description": "Shape of the flow channels cross section"
+      },
+      "hydraulic_diameter": {
+        "description": "Value of the hydraulic diameter in m"
+      },
+      "height": {
+        "description": "Value of the flow channel height in m"
+      },
+      "width": {
+        "description": "Value of the flow channel width in m"
+      },
+      "depth": {
+        "description": "Value of the flow channel depth in m"
+      },
+      "diameter": {
+        "description": "Value of the flow channel diameter in m"
+      },
+      "fluid": {
+        "description": "Description of flow parameters"
+      }
+    },
+    "docstring": "This is a container for information about the free flow channel and the working fluid.\n"
+  },
+  "FlowParameters": {
+    "attributes": {
+      "fluid": {
+        "description": "Name of the free flow fluid"
+      },
+      "temperature": {
+        "description": "Value of the fluid temperature in K"
+      },
+      "pressure": {
+        "description": "Value of the fluid pressure in bar"
+      },
+      "density": {
+        "description": "Value of the fluid density in kg/m^3"
+      },
+      "kinematic_viscosity": {
+        "description": "Value of the fluid kinematic viscosity in m^2/s"
+      },
+      "flow_velocity": {
+        "description": "Value of the fluid flow velocity in m/s"
+      },
+      "mass_flux": {
+        "description": " Value of the fluid mass flux in kg/s"
+      },
+      "reynolds_number": {
+        "multiple": "True",
+        "description": "Value(s) of investigated Reynolds number(s)"
+      }
+    },
+    "docstring": "This is a container for information about the flow parameters.\n"
+  },
+  "Model": {
+    "attributes": {
+      "type": {
+        "description": "What kind of object is located inside the flow channel? (porous media model, cylinder, ...)"
+      },
+      "location": {
+        "description": "Where is the object located inside the flow channel? (in, adjascent to, ... the free flow)"
+      },
+      "porous_media": {
+        "description": "Description of porous media parameters"
+      }
+    },
+    "docstring": "This is a container for information about a possible object in/adjascent to the free flow\n"
+  },
+  "PorousMediaParameters": {
+    "attributes": {
+      "topology": {
+        "description": "Definition of the porous media model topology (rods, cylinders, minimal surface, ...)"
+      },
+      "height": {
+        "description": "Value of the porous media model height in m"
+      },
+      "width": {
+        "description": "Value of the porous media model width in m"
+      },
+      "depth": {
+        "description": "Value of the porous media model depth in m"
+      },
+      "porosity": {
+        "description": "Value of the porous media model porosity"
+      },
+      "periodicity_x": {
+        "description": "Value of the porous media model periodicity in x-direction in m"
+      },
+      "periodicity_y": {
+        "description": "Value of the porous media model periodicity in y-direction in m"
+      },
+      "wall_thickness": {
+        "description": "Value of the porous media model wall thickness in m"
+      }
+    },
+    "docstring": "This is a container for information about parameters of the used porous media model\n"
+  },
+  "Recording": {
+    "attributes": {
+      "time": {
+        "description": "Value of the investigated time period in s"
+      },
+      "number_of_pictures": {
+        "description": "Value of the total number of pictures which were investigated"
+      },
+      "repetition_rate": {
+        "description": "Value of the recording repetition rate in Hz"
+      },
+      "field_of_view": {
+        "description": "Value of the field of view in m x m"
+      },
+      "resolution": {
+        "description": "Value of the picture resolution in px x px"
+      }
+    },
+    "docstring": "This is a container for information about the recording parameters"
+  }
+}
