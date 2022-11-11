@@ -22,7 +22,7 @@ from .processstep import ProcessStep
 from .recording import Recording
 from .seeding import Seeding
 from .triggering import Triggering
-from .video import Video
+from .model import Model
 
 
 @forge_signature
@@ -69,6 +69,10 @@ class Root(sdRDM.DataModel):
     measurements: List[Measurement] = Field(
         description="Contains all measurements done in this experiment",
         default_factory=ListPlus,
+    )
+
+    model: Optional[Model] = Field(
+        description="Porous media model investigated in this dataset", default=None
     )
 
     __repo__: Optional[str] = PrivateAttr(default="None")
@@ -165,10 +169,8 @@ class Root(sdRDM.DataModel):
     def add_to_measurements(
         self,
         name: str,
+        recordings: List[Recording],
         processing_steps: List[ProcessStep],
-        recording: Optional[Recording] = None,
-        model: Union[str, "Model", None] = None,
-        raw_video: Optional[Video] = None,
         id: Optional[str] = None,
     ) -> None:
         """
@@ -183,24 +185,16 @@ class Root(sdRDM.DataModel):
             name (str): Name of the experiment.
 
 
+            recordings (List[Recording]): Recordings that have been done in the course of the experiment.
+
+
             processing_steps (List[ProcessStep]): Processed video data of the flow measurement.
-
-
-            recording (Optional[Recording]): Recordings that have been done in the course of the experiment. Defaults to None
-
-
-            model (Union[str, 'Model', None]): ID of the model that has been used. Defaults to None
-
-
-            raw_video (Optional[Video]): Raw video data of the flow measurement. Defaults to None
         """
 
         params = {
             "name": name,
+            "recordings": recordings,
             "processing_steps": processing_steps,
-            "recording": recording,
-            "model": model,
-            "raw_video": raw_video,
         }
         if id is not None:
             params["id"] = id

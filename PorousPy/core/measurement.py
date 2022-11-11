@@ -9,11 +9,13 @@ from pydantic import Field
 from pydantic import validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+from h5py._hl.dataset import Dataset as H5Dataset
+from numpy.typing import NDArray
+from pydantic.types import PositiveInt
 
 from .processstep import ProcessStep
 from .recording import Recording
 from .software import Software
-from .video import Video
 
 
 @forge_signature
@@ -26,21 +28,13 @@ class Measurement(sdRDM.DataModel):
 
     name: str = Field(..., description="Name of the experiment")
 
-    recording: Optional[Recording] = Field(
-        description="Recordings that have been done in the course of the experiment",
-        default=None,
-    )
-
-    model: Union[str, "Model", None] = Field(
-        description="ID of the model that has been used", default=None
-    )
-
-    raw_video: Optional[Video] = Field(
-        description="Raw video data of the flow measurement", default=None
-    )
-
     processing_steps: List[ProcessStep] = Field(
         description="Processed video data of the flow measurement",
+        default_factory=ListPlus,
+    )
+
+    recordings: List[Recording] = Field(
+        description="Recordings that have been done in the course of the experiment",
         default_factory=ListPlus,
     )
 
@@ -53,7 +47,7 @@ class Measurement(sdRDM.DataModel):
     def add_to_processing_steps(
         self,
         name: str,
-        processed_video: Video,
+        processed_recording: Recording,
         software: Software,
         id: Optional[str] = None,
     ) -> None:
@@ -69,7 +63,7 @@ class Measurement(sdRDM.DataModel):
             name (str): Name of the processing step.
 
 
-            processed_video (Video): Resulting video from the processing.
+            processed_recording (Recording): Resulting video from the processing.
 
 
             software (Software): Software that has been used to perform the processing step.
@@ -77,7 +71,7 @@ class Measurement(sdRDM.DataModel):
 
         params = {
             "name": name,
-            "processed_video": processed_video,
+            "processed_recording": processed_recording,
             "software": software,
         }
         if id is not None:
@@ -112,3 +106,63 @@ class Measurement(sdRDM.DataModel):
             return value.id
         elif isinstance(value, str):
             return value
+
+    def add_to_recordings(
+        self,
+        camera_id: Union[str, "Camera"],
+        time: float,
+        repetition_rate: float,
+        field_of_view: str,
+        height: Optional[PositiveInt] = None,
+        width: Optional[PositiveInt] = None,
+        n_frames: Optional[int] = None,
+        frames: Union[NDArray, H5Dataset, None] = None,
+        id: Optional[str] = None,
+    ) -> None:
+        """
+        Adds an instance of 'Recording' to the attribute 'recordings'.
+
+        Args:
+
+
+            id (str): Unique identifier of the 'Recording' object. Defaults to 'None'.
+
+
+            camera_id (Union[str, 'Camera']): ID of the camera that has been used.
+
+
+            time (float): Value of the investigated time period in s.
+
+
+            repetition_rate (float): Value of the recording repetition rate in Hz.
+
+
+            field_of_view (str): Value of the field of view in m x m.
+
+
+            height (Optional[PositiveInt]): Height of the image. Defaults to None
+
+
+            width (Optional[PositiveInt]): Width of the image. Defaults to None
+
+
+            n_frames (Optional[int]): Number of frames found in this video. Defaults to None
+
+
+            frames (Union[NDArray, H5Dataset, None]): Videoframes. Defaults to None
+        """
+
+        params = {
+            "camera_id": camera_id,
+            "time": time,
+            "repetition_rate": repetition_rate,
+            "field_of_view": field_of_view,
+            "height": height,
+            "width": width,
+            "n_frames": n_frames,
+            "frames": frames,
+        }
+        if id is not None:
+            params["id"] = id
+        recordings = [Recording(**params)]
+        self.recordings = self.recordings + recordings

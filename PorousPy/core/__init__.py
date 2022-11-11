@@ -15,7 +15,6 @@ from .seeding import Seeding
 from .seedingparameters import SeedingParameters
 from .software import Software
 from .triggering import Triggering
-from .video import Video
 
 __doc__ = "This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this document is to define a data storage standard for Particle Image Velocimetry (PIV) recordings. The data model is still under developement."
 
@@ -37,5 +36,4 @@ __all__ = [
     "SeedingParameters",
     "Software",
     "Triggering",
-    "Video",
 ]

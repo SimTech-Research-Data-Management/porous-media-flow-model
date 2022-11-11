@@ -7,7 +7,7 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 from .software import Software
-from .video import Video
+from .recording import Recording
 
 
 @forge_signature
@@ -20,13 +20,13 @@ class ProcessStep(sdRDM.DataModel):
 
     name: str = Field(..., description="Name of the processing step")
 
-    processed_video: Video = Field(
-        description="Resulting video from the processing", default=None
-    )
-
     software: Software = Field(
         description="Software that has been used to perform the processing step",
         default=None,
+    )
+
+    processed_recording: Recording = Field(
+        description="Resulting video from the processing", default=None
     )
 
     __repo__: Optional[str] = PrivateAttr(default="None")

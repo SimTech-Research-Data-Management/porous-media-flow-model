@@ -4,15 +4,13 @@ classDiagram
     Device <-- Laser
     Device <-- Seeding
     Root *-- Author
+    Root *-- Model
     Root *-- Hardware
     Root *-- FreeFlow
     Root *-- Measurement
     Measurement *-- Recording
-    Measurement *-- Model
-    Measurement *-- Video
     Measurement *-- ProcessStep
-    Video *-- Camera
-    ProcessStep *-- Video
+    ProcessStep *-- Recording
     ProcessStep *-- Software
     Hardware *-- Camera
     Hardware *-- Laser
@@ -22,6 +20,7 @@ classDiagram
     Seeding *-- SeedingParameters
     FreeFlow *-- FlowParameters
     Model *-- PorousMediaParameters
+    Recording *-- Camera
     
     class Root {
         +string description*
@@ -29,6 +28,7 @@ classDiagram
         +date date*
         +Author[0..*] authors*
         +string[0..*] subjects*
+        +Model model
         +string[0..*] keywords*
         +Hardware[0..*] devices*
         +FreeFlow free_flow
@@ -44,23 +44,13 @@ classDiagram
     
     class Measurement {
         +string name*
-        +Recording recording
-        +@Model.id model
-        +Video raw_video
+        +Recording[0..*] recordings
         +ProcessStep[0..*] processing_steps
-    }
-    
-    class Video {
-        +@Camera.id camera_id*
-        +PositiveInt height
-        +PositiveInt width
-        +integer total_frames
-        +NDArray frames
     }
     
     class ProcessStep {
         +string name*
-        +Video processed_video*
+        +Recording processed_recording*
         +Software software*
     }
     
@@ -149,11 +139,14 @@ classDiagram
     }
     
     class Recording {
+        +@Camera.id camera_id*
+        +PositiveInt height
+        +PositiveInt width
+        +integer n_frames
+        +NDArray frames
         +float time*
-        +int number_of_pictures*
         +float repetition_rate*
         +string field_of_view*
-        +string resolution*
     }
     
 ```
