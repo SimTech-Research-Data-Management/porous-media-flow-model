@@ -2,7 +2,6 @@
     - [Root](#root)
     - [Author](#author)
     - [Measurement](#measurement)
-    - [Video](#video)
     - [ProcessStep](#processstep)
     - [Hardware](#hardware)
     - [Device](#device)
@@ -18,7 +17,6 @@
     - [PorousMediaParameters](#porousmediaparameters)
     - [Recording](#recording)
 
-
 # Dataset EXC2075 PN1-3
 
 This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this document is to define a data storage standard for Particle Image Velocimetry (PIV) recordings. The data model is still under developement.
@@ -29,32 +27,35 @@ This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this do
 This is a container for general information about the dataset. Please describe your dataset in detail here.
 
 - __description*__
-    - Type: string
-    - Description: Describes the content of the dataset
+  - Type: string
+  - Description: Describes the content of the dataset
 - __name*__
-    - Type: string
-    - Description: Descriptive name of the dataset / ID
+  - Type: string
+  - Description: Descriptive name of the dataset / ID
 - __date*__
-    - Type: date
-    - Description: Date/time when the dataset was created
+  - Type: date
+  - Description: Date/time when the dataset was created
 - __authors*__
-    - Type: [Author](#author)
-    - Multiple: True
-    - Description: Persons who worked on the dataset
+  - Type: [Author](#author)
+  - Multiple: True
+  - Description: Persons who worked on the dataset
 - __subjects*__
-    - Type: string
-    - Multiple: True
-    - Description: Research subjects covered by the dataset
+  - Type: string
+  - Multiple: True
+  - Description: Research subjects covered by the dataset
+- __model__
+  - Type: Model
+  - Description: Porous media model investigated in this dataset
 - __keywords*__
-    - Type: string
-    - Multiple: True
-    - Description: Descriptive keywords to describe the datase (examples:PIV, time-resolved, time-averaged)
+  - Type: string
+  - Multiple: True
+  - Description: Descriptive keywords to describe the datase (examples:PIV, time-resolved, time-averaged)
 - __devices*__
   - Type: [Hardware](#hardware)
   - Description: Devices used in this experiment
   - Multiple: True
 - __free_flow__
-  - Type: FreeFlow
+  - Type: [FreeFlow](#freeflow)
   - Description: Free flow of the measurement
 - __measurements__
   - Type: [Measurement](#measurement)
@@ -84,45 +85,22 @@ This is a container for information regarding persons who worked on the dataset 
 - __name*__
   - Type: string
   - Description: Name of the experiment
-- __recording__
-  - Type: Recording
+- __recordings__
+  - Type: [Recording](#recording)
   - Description: Recordings that have been done in the course of the experiment
-- __model__
-  - Type: @Model.id
-  - Description: ID of the model that has been used
-- __raw_video__
-  - Type: Video
-  - Description: Raw video data of the flow measurement
+  - Multiple: True
 - __processing_steps__
-  - Type: ProcessStep
+  - Type: [ProcessStep](#processstep)
   - Description: Processed video data of the flow measurement
   - Multiple: True
-
-### Video
-
-- __camera_id*__
-  - Type: @Camera.id
-  - Description: ID of the camera that has been used
-- __height__
-  - Type: PositiveInt
-  - Description: Height of the image
-- __width__
-  - Type: PositiveInt
-  - Description: Width of the image
-- __total_frames__
-  - Type: integer
-  - Description: Number of frames found in this video
-- __frames__
-  - Type: NDArray
-  - Description: Videoframes
 
 ### ProcessStep
 
 - __name*__
   - Type: string
   - Description: Name of the processing step
-- __processed_video*__
-  - Type: Video
+- __processed_recording*__
+  - Type: [Recording](#recording)
   - Description: Resulting video from the processing
 - __software*__
   - Type: [Software](#software)
@@ -133,22 +111,22 @@ This is a container for information regarding persons who worked on the dataset 
 This is a container for general information about the hardware which was used to capture the PIV data.
 
 - __camera*__
-    - Type : Camera
+    - Type : [Camera](#camera)
     - Multiple: True
     - Description: Description of the used camera system
 - __laser*__
-    - Type: Laser
+    - Type: [Laser](#laser)
     - Multiple: True
     - Description: Description of the used laser system
 - __seeding*__
-    - Type: Seeding
+    - Type: [Seeding](#seeding)
     - Description: Description of the used seeding device and seeding material
 - __optics__
-    - Type: Device
+    - Type: [Device](#device)
     - Multiple: True
     - Description: Description of the used optical devices (laserarm, lenses, beamsplitter, sheet optics, ...)
 - __triggering__
-    - Type: Triggering
+    - Type: [Triggering](#triggering)
     - Description: Description of the used triggering devices
 
 ### Device
@@ -161,7 +139,7 @@ This is a container for information regarding of general devices. For now it onl
 - __model*__
     - Type: string
     - Description: Name of the device's model   
-    
+
 ### Camera [_Device_]
 
 This is a container for information regarding cameras which were used within the dataset.
@@ -172,8 +150,8 @@ This is a container for information regarding cameras which were used within the
 - __sensor__
     - Type: string
     - Description: Description of the camera sensor
-    
-    
+
+
 ### Laser [_Device_]
 
 This is a container for information regarding lasers which were used within the dataset.
@@ -194,10 +172,10 @@ This is a container for information regarding lasers which were used within the 
 This is a container for information regarding of the seeding device which was used within the dataset.
 
 - __particles*__
-    - Type: SeedingParameters
+    - Type: [SeedingParameters](#seedingparameters)
     - Description: Seeding parameters of the used seeding material
-    
-    
+
+
 ### SeedingParameters
 
 This is a container for information regarding of the used seeding particles.
@@ -217,7 +195,7 @@ This is a container for information regarding of the used seeding particles.
 - __kinematic_viscosity__
     - Type: float
     - Description: Value of the seeding particle kinematic viscosity in m^2/s
-    
+
 
 ### Triggering [Device]
 
@@ -266,7 +244,7 @@ This is a container for information about the free flow channel and the working 
     - Type: float
     - Description: Value of the flow channel diameter in m 
 - __fluid*__
-    - Type: FlowParameters
+    - Type: [FlowParameters](#flowparameters)
     - Description: Description of flow parameters
 
 
@@ -299,25 +277,25 @@ This is a container for information about the flow parameters.
     - Type: float
     - Multiple: True
     - Description: Value(s) of investigated Reynolds number(s)
-    
 
-### Model    
+
+### Model   
 
 This is a container for information about a possible object in/adjascent to the free flow
 
 - __type*__
     - Type: string
     - Description: What kind of object is located inside the flow channel? (porous media model, cylinder, ...)
-    
+
 - __location*__
     - Type: string
     - Description: Where is the object located inside the flow channel? (in, adjascent to, ... the free flow)
-    
+
 - __porous_media__
-    - Type: PorousMediaParameters
+    - Type: [PorousMediaParameters](#porousmediaparameters)
     - Description: Description of porous media parameters
-    
-    
+
+
 ### PorousMediaParameters
 
 This is a container for information about parameters of the used porous media model
@@ -346,24 +324,33 @@ This is a container for information about parameters of the used porous media mo
 - __wall_thickness__
     - Type: float
     - Description: Value of the porous media model wall thickness in m
-    
+
 
 ### Recording
 
 This is a container for information about the recording parameters
 
+- __camera_id*__
+  - Type: @Camera.id
+  - Description: ID of the camera that has been used
+- __height__
+  - Type: PositiveInt
+  - Description: Height of the image
+- __width__
+  - Type: PositiveInt
+  - Description: Width of the image
+- __n_frames__
+  - Type: integer
+  - Description: Number of frames found in this video
+- __frames__
+  - Type: NDArray
+  - Description: Videoframes
 - __time*__
-    - Type: float
-    - Description: Value of the investigated time period in s
-- __number_of_pictures*__
-    - Type: int
-    - Description: Value of the total number of pictures which were investigated
+  - Type: float
+  - Description: Value of the investigated time period in s
 - __repetition_rate*__
-    - Type: float
-    - Description: Value of the recording repetition rate in Hz
+  - Type: float
+  - Description: Value of the recording repetition rate in Hz
 - __field_of_view*__
-    - Type: string
-    - Description: Value of the field of view in m x m
-- __resolution*__
-    - Type: string
-    - Description: Value of the picture resolution in px x px
+  - Type: string
+  - Description: Value of the field of view in m x m
