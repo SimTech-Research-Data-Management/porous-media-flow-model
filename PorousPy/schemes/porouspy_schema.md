@@ -59,6 +59,7 @@ classDiagram
         +float pressure*
         +float density*
         +float kinematic_viscosity*
+        +float dynamic_viscosity*
         +float flow_velocity*
         +float mass_flux*
         +float[0..*] reynolds_number*

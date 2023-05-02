@@ -7,18 +7,18 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 from datetime import datetime
 
-from .camera import Camera
-from .laser import Laser
-from .author import Author
-from .model import Model
-from .recording import Recording
 from .device import Device
-from .hardware import Hardware
-from .seeding import Seeding
-from .freeflow import FreeFlow
+from .laser import Laser
+from .recording import Recording
+from .camera import Camera
 from .processstep import ProcessStep
-from .measurement import Measurement
+from .model import Model
+from .freeflow import FreeFlow
+from .seeding import Seeding
 from .triggering import Triggering
+from .measurement import Measurement
+from .author import Author
+from .hardware import Hardware
 
 
 @forge_signature
@@ -94,7 +94,7 @@ class PorousMediaDocument(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8f615b63de4ce2ffca03ad205da80541b2f02d45"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
 
     def add_to_authors(

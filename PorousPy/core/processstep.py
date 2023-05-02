@@ -5,8 +5,8 @@ from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .recording import Recording
 from .software import Software
+from .recording import Recording
 
 
 @forge_signature
@@ -39,5 +39,5 @@ class ProcessStep(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8f615b63de4ce2ffca03ad205da80541b2f02d45"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )

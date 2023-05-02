@@ -27,5 +27,5 @@ class Triggering(Device):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8f615b63de4ce2ffca03ad205da80541b2f02d45"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
