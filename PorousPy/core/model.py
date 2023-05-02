@@ -44,5 +44,5 @@ class Model(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8f615b63de4ce2ffca03ad205da80541b2f02d45"
+        default="217170c9b861fd33ddc40de1715b3fedae23bbe6"
     )

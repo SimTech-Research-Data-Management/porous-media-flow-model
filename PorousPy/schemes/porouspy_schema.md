@@ -24,6 +24,7 @@ classDiagram
     Recording *-- Camera
     
     class PorousMediaDocument {
+        +string grant_information*
         +string description*
         +string name*
         +datetime date*
