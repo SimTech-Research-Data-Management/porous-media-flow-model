@@ -131,6 +131,9 @@ This is a container for information about the flow parameters.
 - __kinematic_viscosity__
   - Type: float
   - Description: Value of the fluid kinematic viscosity in m^2/s
+- __dynamic_viscosity__
+  - Type: float
+  - Description: Value of the dynamic fluid viscosity in mPas
 - __flow_velocity__
   - Type: float
   - Description: Value of the fluid flow velocity in m/s
