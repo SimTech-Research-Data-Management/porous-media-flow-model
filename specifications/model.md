@@ -31,6 +31,9 @@ This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this do
 
 This is a container for general information about the dataset. Please describe your dataset in detail here.
 
+- __grant_information__
+  - Type: string
+  - Description: Hello
 - __description__
   - Type: string
   - Description: Describes the content of the dataset
