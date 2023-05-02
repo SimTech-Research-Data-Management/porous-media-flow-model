@@ -5,15 +5,15 @@ from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
+from pydantic.types import PositiveInt
 from numpy.typing import NDArray
 from h5py._hl.dataset import Dataset as H5Dataset
 from typing import Union
-from pydantic.types import PositiveInt
 
-from .processstep import ProcessStep
 from .camera import Camera
 from .recording import Recording
 from .software import Software
+from .processstep import ProcessStep
 
 
 @forge_signature
@@ -48,7 +48,7 @@ class Measurement(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8f615b63de4ce2ffca03ad205da80541b2f02d45"
+        default="217170c9b861fd33ddc40de1715b3fedae23bbe6"
     )
 
     def add_to_recordings(
