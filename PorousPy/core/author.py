@@ -7,10 +7,9 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class Author(sdRDM.DataModel):
-
     """This is a container for information regarding persons who worked on the dataset or created it."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("authorINDEX"),
         xml="@id",
@@ -40,5 +39,5 @@ class Author(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
+        default="9861f1edfafad8d066d12be2808992116bbd3b62"
     )

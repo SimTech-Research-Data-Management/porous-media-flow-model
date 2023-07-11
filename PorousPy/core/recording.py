@@ -14,10 +14,9 @@ from .camera import Camera
 
 @forge_signature
 class Recording(sdRDM.DataModel):
-
     """This is a container for information about the recording parameters"""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("recordingINDEX"),
         xml="@id",
@@ -68,7 +67,7 @@ class Recording(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
+        default="9861f1edfafad8d066d12be2808992116bbd3b62"
     )
 
     @validator("camera_id")
