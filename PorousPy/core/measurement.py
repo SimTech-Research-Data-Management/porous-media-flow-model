@@ -1,31 +1,32 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
+from typing import Optional, Union, List
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from h5py._hl.dataset import Dataset as H5Dataset
-from numpy.typing import NDArray
-from pydantic import Field
-from pydantic import validator
 from pydantic.types import PositiveInt
-from typing import List
-from typing import Optional
+from numpy.typing import NDArray
+from h5py._hl.dataset import Dataset as H5Dataset
 from typing import Union
 
+from .camera import Camera
 from .processstep import ProcessStep
-from .recording import Recording
 from .software import Software
+from .recording import Recording
 
 
 @forge_signature
 class Measurement(sdRDM.DataModel):
+
+    """"""
+
     id: str = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("measurementINDEX"),
         xml="@id",
     )
+
     name: str = Field(
         ...,
         description="Name of the experiment",
@@ -34,45 +35,47 @@ class Measurement(sdRDM.DataModel):
     recordings: List[Recording] = Field(
         description="Recordings that have been done in the course of the experiment",
         default_factory=ListPlus,
+        multiple=True,
     )
 
     processing_steps: List[ProcessStep] = Field(
         description="Processed video data of the flow measurement",
         default_factory=ListPlus,
+        multiple=True,
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
 
     def add_to_recordings(
         self,
-        camera_id: Union[str, "Camera"],
+        camera_id: Camera,
         time: float,
         repetition_rate: float,
         field_of_view: str,
         height: Optional[PositiveInt] = None,
         width: Optional[PositiveInt] = None,
         n_frames: Optional[int] = None,
-        frames: Union[NDArray, H5Dataset, None] = None,
+        frames: Optional[Union[NDArray, H5Dataset]] = None,
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Recording' to the attribute 'recordings'.
+        This method adds an object of type 'Recording' to attribute recordings
 
         Args:
             id (str): Unique identifier of the 'Recording' object. Defaults to 'None'.
-            camera_id (Union[str, 'Camera']): ID of the camera that has been used.
-            time (float): Value of the investigated time period in s.
-            repetition_rate (float): Value of the recording repetition rate in Hz.
-            field_of_view (str): Value of the field of view in m x m.
-            height (Optional[PositiveInt]): Height of the image. Defaults to None
-            width (Optional[PositiveInt]): Width of the image. Defaults to None
-            n_frames (Optional[int]): Number of frames found in this video. Defaults to None
-            frames (Union[NDArray, H5Dataset, None]): Videoframes. Defaults to None
+            camera_id (): ID of the camera that has been used.
+            time (): Value of the investigated time period in s.
+            repetition_rate (): Value of the recording repetition rate in Hz.
+            field_of_view (): Value of the field of view in m x m.
+            height (): Height of the image. Defaults to None
+            width (): Width of the image. Defaults to None
+            n_frames (): Number of frames found in this video. Defaults to None
+            frames (): Videoframes. Defaults to None
         """
 
         params = {
@@ -89,9 +92,7 @@ class Measurement(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        recordings = [Recording(**params)]
-
-        self.recordings = self.recordings + recordings
+        self.recordings.append(Recording(**params))
 
     def add_to_processing_steps(
         self,
@@ -101,13 +102,13 @@ class Measurement(sdRDM.DataModel):
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'ProcessStep' to the attribute 'processing_steps'.
+        This method adds an object of type 'ProcessStep' to attribute processing_steps
 
         Args:
             id (str): Unique identifier of the 'ProcessStep' object. Defaults to 'None'.
-            name (str): Name of the processing step.
-            processed_recording (Recording): Resulting video from the processing.
-            software (Software): Software that has been used to perform the processing step.
+            name (): Name of the processing step.
+            processed_recording (): Resulting video from the processing.
+            software (): Software that has been used to perform the processing step.
         """
 
         params = {
@@ -119,6 +120,4 @@ class Measurement(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        processing_steps = [ProcessStep(**params)]
-
-        self.processing_steps = self.processing_steps + processing_steps
+        self.processing_steps.append(ProcessStep(**params))

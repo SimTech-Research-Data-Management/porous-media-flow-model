@@ -1,40 +1,37 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
+from typing import List, Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 from datetime import datetime
-from pydantic import Field
-from typing import List
-from typing import Optional
 
-from .author import Author
-from .camera import Camera
 from .device import Device
-from .freeflow import FreeFlow
-from .hardware import Hardware
 from .laser import Laser
-from .measurement import Measurement
-from .model import Model
-from .processstep import ProcessStep
 from .recording import Recording
+from .camera import Camera
+from .processstep import ProcessStep
+from .model import Model
+from .freeflow import FreeFlow
 from .seeding import Seeding
 from .triggering import Triggering
+from .measurement import Measurement
+from .author import Author
+from .hardware import Hardware
 
 
 @forge_signature
-class Root(sdRDM.DataModel):
+class PorousMediaDocument(sdRDM.DataModel):
 
-    """This is a container for general information about the dataset. Please describe your dataset in detail here.
-    """
+    """This is a container for general information about the dataset. Please describe your dataset in detail here."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("rootINDEX"),
+        default_factory=IDGenerator("porousmediadocumentINDEX"),
         xml="@id",
     )
+
     description: str = Field(
         ...,
         description="Describes the content of the dataset",
@@ -51,21 +48,24 @@ class Root(sdRDM.DataModel):
     )
 
     authors: List[Author] = Field(
+        multiple=True,
         description="Persons who worked on the dataset",
         default_factory=ListPlus,
     )
 
     subjects: List[str] = Field(
+        multiple=True,
         description="Research subjects covered by the dataset",
         default_factory=ListPlus,
     )
 
     model: Optional[Model] = Field(
-        description="Porous media model investigated in this dataset",
         default=None,
+        description="Porous media model investigated in this dataset",
     )
 
     keywords: List[str] = Field(
+        multiple=True,
         description=(
             "Descriptive keywords to describe the datase (examples:PIV, time-resolved,"
             " time-averaged)"
@@ -75,24 +75,26 @@ class Root(sdRDM.DataModel):
 
     devices: List[Hardware] = Field(
         description="Devices used in this experiment",
+        multiple=True,
         default_factory=ListPlus,
     )
 
     free_flow: Optional[FreeFlow] = Field(
-        description="Free flow of the measurement",
         default=None,
+        description="Free flow of the measurement",
     )
 
     measurements: List[Measurement] = Field(
         description="Contains all measurements done in this experiment",
         default_factory=ListPlus,
+        multiple=True,
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
 
     def add_to_authors(
@@ -104,14 +106,14 @@ class Root(sdRDM.DataModel):
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Author' to the attribute 'authors'.
+        This method adds an object of type 'Author' to attribute authors
 
         Args:
             id (str): Unique identifier of the 'Author' object. Defaults to 'None'.
-            name (str): Full name of the author.
-            affiliation (str): Organisation the author is affiliated with.
-            email (str): Contact e-mail adress of the author.
-            phone (Optional[int]): Contact phone number of the author. Defaults to None
+            name (): Full name of the author.
+            affiliation (): Organisation the author is affiliated with.
+            email (): Contact e-mail adress of the author.
+            phone (): Contact phone number of the author. Defaults to None
         """
 
         params = {
@@ -124,35 +126,33 @@ class Root(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        authors = [Author(**params)]
-
-        self.authors = self.authors + authors
+        self.authors.append(Author(**params))
 
     def add_to_devices(
         self,
-        camera: List[Camera],
-        laser: List[Laser],
         seeding: Seeding,
-        optics: List[Device],
+        camera: List[Camera] = ListPlus(),
+        laser: List[Laser] = ListPlus(),
+        optics: List[Device] = ListPlus(),
         triggering: Optional[Triggering] = None,
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Hardware' to the attribute 'devices'.
+        This method adds an object of type 'Hardware' to attribute devices
 
         Args:
             id (str): Unique identifier of the 'Hardware' object. Defaults to 'None'.
-            camera (List[Camera]): Description of the used camera system.
-            laser (List[Laser]): Description of the used laser system.
-            seeding (Seeding): Description of the used seeding device and seeding material.
-            optics (List[Device]): Description of the used optical devices (laserarm, lenses, beamsplitter, sheet optics, ..).
-            triggering (Optional[Triggering]): Description of the used triggering devices. Defaults to None
+            seeding (): Description of the used seeding device and seeding material.
+            camera (): Description of the used camera system. Defaults to ListPlus()
+            laser (): Description of the used laser system. Defaults to ListPlus()
+            optics (): Description of the used optical devices (laserarm, lenses, beamsplitter, sheet optics, ...). Defaults to ListPlus()
+            triggering (): Description of the used triggering devices. Defaults to None
         """
 
         params = {
+            "seeding": seeding,
             "camera": camera,
             "laser": laser,
-            "seeding": seeding,
             "optics": optics,
             "triggering": triggering,
         }
@@ -160,25 +160,23 @@ class Root(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        devices = [Hardware(**params)]
-
-        self.devices = self.devices + devices
+        self.devices.append(Hardware(**params))
 
     def add_to_measurements(
         self,
         name: str,
-        recordings: List[Recording],
-        processing_steps: List[ProcessStep],
+        recordings: List[Recording] = ListPlus(),
+        processing_steps: List[ProcessStep] = ListPlus(),
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Measurement' to the attribute 'measurements'.
+        This method adds an object of type 'Measurement' to attribute measurements
 
         Args:
             id (str): Unique identifier of the 'Measurement' object. Defaults to 'None'.
-            name (str): Name of the experiment.
-            recordings (List[Recording]): Recordings that have been done in the course of the experiment.
-            processing_steps (List[ProcessStep]): Processed video data of the flow measurement.
+            name (): Name of the experiment.
+            recordings (): Recordings that have been done in the course of the experiment. Defaults to ListPlus()
+            processing_steps (): Processed video data of the flow measurement. Defaults to ListPlus()
         """
 
         params = {
@@ -190,6 +188,4 @@ class Root(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        measurements = [Measurement(**params)]
-
-        self.measurements = self.measurements + measurements
+        self.measurements.append(Measurement(**params))

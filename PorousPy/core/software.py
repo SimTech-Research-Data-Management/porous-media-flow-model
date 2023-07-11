@@ -1,11 +1,8 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
+from typing import Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
 
 
 @forge_signature
@@ -18,6 +15,7 @@ class Software(sdRDM.DataModel):
         default_factory=IDGenerator("softwareINDEX"),
         xml="@id",
     )
+
     manufacturer: str = Field(
         ...,
         description="Name of the used recording software manufacturer",
@@ -34,8 +32,8 @@ class Software(sdRDM.DataModel):
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )

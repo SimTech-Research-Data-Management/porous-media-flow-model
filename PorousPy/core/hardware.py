@@ -1,89 +1,83 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
+from typing import List, Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from pydantic import Field
-from typing import List
-from typing import Optional
 
 from .camera import Camera
-from .device import Device
-from .laser import Laser
 from .seeding import Seeding
+from .device import Device
 from .triggering import Triggering
+from .laser import Laser
 
 
 @forge_signature
 class Hardware(sdRDM.DataModel):
 
-    """This is a container for general information about the hardware which was used to capture the PIV data.
-    """
+    """This is a container for general information about the hardware which was used to capture the PIV data."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("hardwareINDEX"),
         xml="@id",
     )
-    optics: List[Device] = Field(
-        description=(
-            "Description of the used optical devices (laserarm, lenses, beamsplitter,"
-            " sheet optics, ...)"
-        ),
-        default_factory=ListPlus,
-    )
 
     camera: List[Camera] = Field(
+        multiple=True,
         description="Description of the used camera system",
         default_factory=ListPlus,
     )
 
     laser: List[Laser] = Field(
+        multiple=True,
         description="Description of the used laser system",
         default_factory=ListPlus,
     )
 
     seeding: Seeding = Field(
+        ...,
         description="Description of the used seeding device and seeding material",
-        default=None,
+    )
+
+    optics: List[Device] = Field(
+        default_factory=ListPlus,
+        multiple=True,
+        description=(
+            "Description of the used optical devices (laserarm, lenses, beamsplitter,"
+            " sheet optics, ...)"
+        ),
     )
 
     triggering: Optional[Triggering] = Field(
-        description="Description of the used triggering devices",
         default=None,
+        description="Description of the used triggering devices",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
 
     def add_to_camera(
         self,
-        manufacturer: str,
-        model: str,
         lens: Optional[str] = None,
         sensor: Optional[str] = None,
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Camera' to the attribute 'camera'.
+        This method adds an object of type 'Camera' to attribute camera
 
         Args:
             id (str): Unique identifier of the 'Camera' object. Defaults to 'None'.
-            manufacturer (str): Name of the device's manufacturer.
-            model (str): Name of the device's model.
-            lens (Optional[str]): Name of the camera lens. Defaults to None
-            sensor (Optional[str]): Description of the camera sensor. Defaults to None
+            lens (): Name of the camera lens. Defaults to None
+            sensor (): Description of the camera sensor. Defaults to None
         """
 
         params = {
-            "manufacturer": manufacturer,
-            "model": model,
             "lens": lens,
             "sensor": sensor,
         }
@@ -91,34 +85,26 @@ class Hardware(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        camera = [Camera(**params)]
-
-        self.camera = self.camera + camera
+        self.camera.append(Camera(**params))
 
     def add_to_laser(
         self,
-        manufacturer: str,
-        model: str,
         wavelength: float,
         type: Optional[str] = None,
         power: Optional[float] = None,
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'Laser' to the attribute 'laser'.
+        This method adds an object of type 'Laser' to attribute laser
 
         Args:
             id (str): Unique identifier of the 'Laser' object. Defaults to 'None'.
-            manufacturer (str): Name of the device's manufacturer.
-            model (str): Name of the device's model.
-            wavelength (float): Value of the used wavelength.
-            type (Optional[str]): Pulsed or continous wave laser?. Defaults to None
-            power (Optional[float]): value of the laser power. Defaults to None
+            wavelength (): Value of the used wavelength.
+            type (): Pulsed or continous wave laser?. Defaults to None
+            power (): value of the laser power. Defaults to None
         """
 
         params = {
-            "manufacturer": manufacturer,
-            "model": model,
             "wavelength": wavelength,
             "type": type,
             "power": power,
@@ -127,20 +113,18 @@ class Hardware(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        laser = [Laser(**params)]
-
-        self.laser = self.laser + laser
+        self.laser.append(Laser(**params))
 
     def add_to_optics(
         self, manufacturer: str, model: str, id: Optional[str] = None
     ) -> None:
         """
-        Adds an instance of 'Device' to the attribute 'optics'.
+        This method adds an object of type 'Device' to attribute optics
 
         Args:
             id (str): Unique identifier of the 'Device' object. Defaults to 'None'.
-            manufacturer (str): Name of the device's manufacturer.
-            model (str): Name of the device's model.
+            manufacturer (): Name of the device's manufacturer.
+            model (): Name of the device's model.
         """
 
         params = {
@@ -151,6 +135,4 @@ class Hardware(sdRDM.DataModel):
         if id is not None:
             params["id"] = id
 
-        optics = [Device(**params)]
-
-        self.optics = self.optics + optics
+        self.optics.append(Device(**params))

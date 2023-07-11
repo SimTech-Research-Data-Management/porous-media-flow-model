@@ -1,25 +1,21 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
 from typing import Optional
+from pydantic import Field, PrivateAttr
+from sdRDM.base.utils import forge_signature, IDGenerator
 
 
 @forge_signature
 class Author(sdRDM.DataModel):
 
-    """This is a container for information regarding persons who worked on the dataset or created it.
-    """
+    """This is a container for information regarding persons who worked on the dataset or created it."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("authorINDEX"),
         xml="@id",
     )
+
     name: str = Field(
         ...,
         description="Full name of the author",
@@ -36,13 +32,13 @@ class Author(sdRDM.DataModel):
     )
 
     phone: Optional[int] = Field(
-        description="Contact phone number of the author",
         default=None,
+        description="Contact phone number of the author",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )

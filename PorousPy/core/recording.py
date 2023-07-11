@@ -1,17 +1,15 @@
 import sdRDM
 
 from typing import Optional, Union
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
+from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from h5py._hl.dataset import Dataset as H5Dataset
-from numpy.typing import NDArray
-from pydantic import Field
-from pydantic import validator
 from pydantic.types import PositiveInt
-from typing import Optional
+from numpy.typing import NDArray
+from h5py._hl.dataset import Dataset as H5Dataset
 from typing import Union
+
+from .camera import Camera
 
 
 @forge_signature
@@ -24,8 +22,10 @@ class Recording(sdRDM.DataModel):
         default_factory=IDGenerator("recordingINDEX"),
         xml="@id",
     )
-    camera_id: Union[str, "Camera"] = Field(
+
+    camera_id: Union[Camera, str] = Field(
         ...,
+        reference="Camera.id",
         description="ID of the camera that has been used",
     )
 
@@ -45,43 +45,43 @@ class Recording(sdRDM.DataModel):
     )
 
     height: Optional[PositiveInt] = Field(
-        description="Height of the image",
         default=None,
+        description="Height of the image",
     )
 
     width: Optional[PositiveInt] = Field(
-        description="Width of the image",
         default=None,
+        description="Width of the image",
     )
 
     n_frames: Optional[int] = Field(
-        description="Number of frames found in this video",
         default=None,
+        description="Number of frames found in this video",
     )
 
-    frames: Union[NDArray, H5Dataset, None] = Field(
-        description="Videoframes",
+    frames: Optional[Union[NDArray, H5Dataset]] = Field(
         default=None,
+        description="Videoframes",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
 
-    @validator("camera_id", pre=True)
+    @validator("camera_id")
     def get_camera_id_reference(cls, value):
         """Extracts the ID from a given object to create a reference"""
 
         from .camera import Camera
 
-        if not isinstance(value, (Camera, str)):
-            raise TypeError(
-                f"Expected 'Camera' or 'str' got '{type(value).__name__}' instead."
-            )
-        elif isinstance(value, Camera):
+        if isinstance(value, Camera):
             return value.id
         elif isinstance(value, str):
             return value
+        else:
+            raise TypeError(
+                f"Expected types [Camera, str] got '{type(value).__name__}' instead."
+            )

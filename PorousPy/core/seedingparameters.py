@@ -1,12 +1,8 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
 from typing import Optional
+from pydantic import Field, PrivateAttr
+from sdRDM.base.utils import forge_signature, IDGenerator
 
 
 @forge_signature
@@ -19,6 +15,7 @@ class SeedingParameters(sdRDM.DataModel):
         default_factory=IDGenerator("seedingparametersINDEX"),
         xml="@id",
     )
+
     material: str = Field(
         ...,
         description="Name of the seeding material",
@@ -40,13 +37,13 @@ class SeedingParameters(sdRDM.DataModel):
     )
 
     kinematic_viscosity: Optional[float] = Field(
-        description="Value of the seeding particle kinematic viscosity in m^2/s",
         default=None,
+        description="Value of the seeding particle kinematic viscosity in m^2/s",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0df357be5c077418934ea7ba50004f15e2374916"
+        default="7663b173df67fd6098a9e76ea7a354fcf151c549"
     )
