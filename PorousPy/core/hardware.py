@@ -6,11 +6,11 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .laser import Laser
-from .triggering import Triggering
-from .seeding import Seeding
 from .camera import Camera
+from .triggering import Triggering
+from .laser import Laser
 from .device import Device
+from .seeding import Seeding
 
 
 @forge_signature
@@ -58,7 +58,7 @@ class Hardware(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="bcd0026275c43b975bd1ffb5d0a0a434786df0e4"
     )
 
     def add_to_camera(
