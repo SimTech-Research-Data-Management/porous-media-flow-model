@@ -11,7 +11,10 @@ from .recording import Recording
 
 @forge_signature
 class ProcessStep(sdRDM.DataModel):
-    """"""
+    """The Process Step outlines the specific processing steps applied to the flow measurement video data.
+    t includes the name of each processing step, the resulting video from the processing, and the software used to post-process the data.
+    Additionally, files with the extension ".lvs" from the Davis 10 software can be embedded within this section, providing a comprehensive record of the processing workflow and ensuring the availability of relevant files for reference and replication.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -38,5 +41,5 @@ class ProcessStep(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

@@ -7,7 +7,7 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class Device(sdRDM.DataModel):
-    """This is a container for information regarding of general devices. For now it only applies to "Hardware-optics" but it could be for more."""
+    """The Device provides general information about the manufacturer and model of the used devices such as cameras, lasers, optics, triggering and seeding systems."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -29,5 +29,5 @@ class Device(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

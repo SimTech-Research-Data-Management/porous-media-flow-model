@@ -7,7 +7,9 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class PorousMediaParameters(sdRDM.DataModel):
-    """This is a container for information about parameters of the used porous media model"""
+    """The Porous Media Parameters contain significant information regarding the parameters associated with the utilized porous media model.
+    They include the topology of the porous media model, the dimensions and other relevant material properties.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -62,5 +64,5 @@ class PorousMediaParameters(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

@@ -6,16 +6,16 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .laser import Laser
-from .triggering import Triggering
+from .device import Device
 from .seeding import Seeding
 from .camera import Camera
-from .device import Device
+from .laser import Laser
+from .triggering import Triggering
 
 
 @forge_signature
 class Hardware(sdRDM.DataModel):
-    """This is a container for general information about the hardware which was used to capture the PIV data."""
+    """The Hardware includes descriptions of the camera systems, laser systems, seeding devices and materials, optical devices, and triggering systems utilized during the experiment."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -58,7 +58,7 @@ class Hardware(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )
 
     def add_to_camera(

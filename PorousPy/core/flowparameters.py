@@ -8,7 +8,9 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class FlowParameters(sdRDM.DataModel):
-    """This is a container for information about the flow parameters."""
+    """The Flow Parameters encompasses crucial details about the flow parameters of the working fluid used in the present dataset.
+    These parameters provide a comprehensive understanding of the fluid's properties and flow conditions within the experiment.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -66,5 +68,5 @@ class FlowParameters(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

@@ -10,7 +10,9 @@ from .flowparameters import FlowParameters
 
 @forge_signature
 class FreeFlow(sdRDM.DataModel):
-    """This is a container for information about the free flow channel and the working fluid."""
+    """The Free Flow section contains information about the shape, dimensions, and working fluid of the free flow channel.
+    It provides details such as the shape of the flow channel's cross-section, the hydraulic diameter, height, width and depth of the channel and a description of the flow parameters of the working fluid.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -57,5 +59,5 @@ class FreeFlow(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

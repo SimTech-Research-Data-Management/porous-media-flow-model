@@ -9,7 +9,7 @@ from .device import Device
 
 @forge_signature
 class Laser(Device):
-    """This is a container for information regarding lasers which were used within the dataset."""
+    """The Laser provides information about the laser wavelength, either the laser is pulsed or continous and the laser power."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -36,5 +36,5 @@ class Laser(Device):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

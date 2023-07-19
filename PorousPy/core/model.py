@@ -10,7 +10,9 @@ from .porousmediaparameters import PorousMediaParameters
 
 @forge_signature
 class Model(sdRDM.DataModel):
-    """This is a container for information about a possible object in/adjascent to the free flow"""
+    """The Model section contains information about the location of the object in the flow channel.
+    It provides details regarding the type of the present porous media model, its location relative to the free flow and if applicable, detailed parameters related to the porous media model which is used.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -43,5 +45,5 @@ class Model(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )

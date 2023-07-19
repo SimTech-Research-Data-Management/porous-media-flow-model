@@ -7,23 +7,23 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 from datetime import datetime
 
-from .processstep import ProcessStep
-from .recording import Recording
-from .hardware import Hardware
-from .laser import Laser
-from .measurement import Measurement
-from .freeflow import FreeFlow
-from .model import Model
-from .triggering import Triggering
-from .seeding import Seeding
 from .author import Author
-from .camera import Camera
+from .laser import Laser
 from .device import Device
+from .hardware import Hardware
+from .seeding import Seeding
+from .camera import Camera
+from .model import Model
+from .recording import Recording
+from .freeflow import FreeFlow
+from .triggering import Triggering
+from .processstep import ProcessStep
+from .measurement import Measurement
 
 
 @forge_signature
 class PorousMediaDocument(sdRDM.DataModel):
-    """This is a container for general information about the dataset. Please describe your dataset in detail here."""
+    """The Porous Media Document summarizes key information about a dataset pertaining turbulent pumping induced by turbulence at the interface of a porous media model and a turbulent free flow. It includes a description of the dataset's content, a descriptive name or ID of the dataset, and the date of creation. It also lists the contributors, highlights the research areas which are covered and specifies the specific porous media model investigated. Descriptive keywords help categorize the dataset and the the hardware used in the experiment is also stored. Free flow conditions of the turbulent air flow are also stored. The Porous Media Document provides detailed information about the measurements conducted in the experiment."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -93,7 +93,7 @@ class PorousMediaDocument(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )
 
     def add_to_authors(

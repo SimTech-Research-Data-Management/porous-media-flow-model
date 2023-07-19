@@ -7,7 +7,10 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class Software(sdRDM.DataModel):
-    """This is a container for general information about the used software."""
+    """The Software section serves as a container for general information about the software utilized in the experiment.
+    It includes details such as the name of the manufacturer, the specific software name, and the version used to generate the dataset.
+    These details provide important context for the experiment, allowing for reproducibility and facilitating a clear understanding of the software environment in which the data analysis and processing were performed.
+    """
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -34,5 +37,5 @@ class Software(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="9861f1edfafad8d066d12be2808992116bbd3b62"
+        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
     )
