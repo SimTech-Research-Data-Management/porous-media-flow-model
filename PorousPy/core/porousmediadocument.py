@@ -8,17 +8,17 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 from datetime import datetime
 
 from .author import Author
-from .laser import Laser
-from .device import Device
-from .hardware import Hardware
-from .seeding import Seeding
-from .camera import Camera
-from .model import Model
 from .recording import Recording
+from .camera import Camera
 from .freeflow import FreeFlow
-from .triggering import Triggering
-from .processstep import ProcessStep
+from .seeding import Seeding
+from .hardware import Hardware
 from .measurement import Measurement
+from .device import Device
+from .triggering import Triggering
+from .model import Model
+from .laser import Laser
+from .processstep import ProcessStep
 
 
 @forge_signature
@@ -66,7 +66,7 @@ class PorousMediaDocument(sdRDM.DataModel):
     keywords: List[str] = Field(
         multiple=True,
         description=(
-            "Descriptive keywords to describe the datase (examples:PIV, time-resolved,"
+            "Descriptive keywords to describe the datase (examples: PIV, time-resolved,"
             " time-averaged)"
         ),
         default_factory=ListPlus,
@@ -93,7 +93,7 @@ class PorousMediaDocument(sdRDM.DataModel):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
+        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
     )
 
     def add_to_authors(

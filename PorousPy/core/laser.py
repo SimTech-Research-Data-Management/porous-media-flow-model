@@ -36,5 +36,5 @@ class Laser(Device):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0a1753bd2d9d680e8290be0d84d604b5bccf852b"
+        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
     )
