@@ -69,7 +69,7 @@ The Porous Media Document summarizes key information about a dataset pertaining 
 - __keywords__
   - Type: string
   - Multiple: True
-  - Description: Descriptive keywords to describe the datase (examples:PIV, time-resolved, time-averaged)
+  - Description: Descriptive keywords to describe the datase (examples: PIV, time-resolved, time-averaged)
 - __devices__
   - Type: [Hardware](#hardware)
   - Description: Devices used in this experiment
