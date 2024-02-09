@@ -31,8 +31,6 @@ EXC2075 PN1-3 focuses on understanding the turbulent pumping mechanisms in diffe
 These fluid flow interactions between energy, mass and momentum transfer need to be further understood to improve engineering applications such as transpiration cooling, filtration processes and heat exchangers.
 To that aim time-resolved and time-averaged velocity measurements were performed at the interface between a turbulent free flow and various porous structures.
 
-
-
 ## General information
 
 *In this section the most important general information on the stored data set is listed here including for example a brief description, the ID of the dataset, the research subjects covered by the dataset.
@@ -175,8 +173,8 @@ It provides details regarding the type of the present porous media model, its lo
   * Type: [PorousMedia](#porousmediaparameters)
   * Description: Description of porous media parameters
 * 3D\_model
-  * Type: STL
-  * Description: CAD drawing of the used model
+  * Type: bytes
+  * Description: CAD drawing of the used model (e.g. stored as a ".stl"-File)
 
 ### PorousMedia
 
