@@ -1,28 +1,28 @@
 # Dataset EXC2075 PN1-3
 
-* [Dataset EXC2075 PN1-3](#dataset-exc2075-pn1-3)
-  * [General information](#general-information)
-    * [Metadata](#metadata)
-    * [Author](#author)
-  * [Model specifications](#model-specifications)
-    * [FreeFlow](#freeflow)
-    * [FlowParameters](#flowparameters)
-    * [Model](#model)
-    * [PorousMedia](#porousmediaparameters)
-  * [Experimental setup](#experimental-setup)
-    * [Hardware](#hardware)
-    * [Device](#device)
-    * [Camera \[*Device*\]](#camera-device)
-    * [Laser \[*Device*\]](#laser-device)
-    * [Seeding \[*Device*\]](#seeding-device)
-    * [SeedingParameters](#seedingparameters)
-    * [Triggering \[*Device*\]](#triggering-device)
-  * [Methods](#methods)
-    * [Measurement](#measurement)
-    * [Calibration](#calibration)
-    * [ProcessStep](#processstep)
-    * [Software](#software)
-    * [Recording](#recording)
+- [Dataset EXC2075 PN1-3](#dataset-exc2075-pn1-3)
+  - [General information](#general-information)
+    - [Metadata](#metadata)
+    - [Author](#author)
+  - [Model specifications](#model-specifications)
+    - [FreeFlow](#freeflow)
+    - [FlowParameters](#flowparameters)
+    - [Model](#model)
+    - [PorousMedia](#porousmedia)
+  - [Experimental setup](#experimental-setup)
+    - [Hardware](#hardware)
+    - [Device](#device)
+    - [Camera \[*Device*\]](#camera-device)
+    - [Laser \[*Device*\]](#laser-device)
+    - [Seeding \[*Device*\]](#seeding-device)
+    - [SeedingParameters](#seedingparameters)
+    - [Triggering \[*Device*\]](#triggering-device)
+  - [Methods](#methods)
+    - [Measurement](#measurement)
+    - [Calibration](#calibration)
+    - [ProcessStep](#processstep)
+    - [Software](#software)
+    - [Recording](#recording)
 
 This is the preliminary Markdown-file of EXC2075 PN1-3. The main goal of this document is to define a data storage standard for highly spatiotemporal Particle Image Velocimetry (PIV) recordings. The data model is still under development.
 
@@ -169,12 +169,12 @@ It provides details regarding the type of the present porous media model, its lo
 * **location**
   * Type: string
   * Description: Where is the object located inside the flow channel? (in, adjascent to, ... the free flow)
-* porous\_media
+* porous_media
   * Type: [PorousMedia](#porousmediaparameters)
   * Description: Description of porous media parameters
-* 3D\_model
+* cad_model
   * Type: bytes
-  * Description: CAD drawing of the used model (e.g. stored as a ".stl"-File)
+  * Description: CAD drawing of the used model (e.g. stored as a '.stl'-File)
 
 ### PorousMedia
 
@@ -354,7 +354,7 @@ The parameters are providing insights into the camera position relative to the e
   * Type: float
   * Description: Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \[px/mm]
 * calibration\_image
-  * Type: NDArray
+  * Type: bytes
   * Description: The actual calibration image which was used.
 
 ### ProcessStep
@@ -410,7 +410,7 @@ The inclusion of the video frames allows for a visual reference and further exam
   * Type: integer
   * Description: Number of frames found in this video.
 * frames
-  * Type: NDArray
+  * Type: bytes
   * Description: The actual Videoframes of the raw video
 * location
   * Type: string
