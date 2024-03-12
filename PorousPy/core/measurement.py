@@ -1,122 +1,167 @@
 import sdRDM
 
-from typing import Optional, Union, List
-from pydantic import Field, PrivateAttr
+from typing import Dict, List, Optional
+from pydantic import PrivateAttr, model_validator
+from uuid import uuid4
+from pydantic_xml import attr, element
+from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic.types import PositiveInt
-from numpy.typing import NDArray
-from h5py._hl.dataset import Dataset as H5Dataset
-from typing import Union
-
-from .camera import Camera
-from .software import Software
-from .recording import Recording
+from sdRDM.base.utils import forge_signature
+from sdRDM.tools.utils import elem2dict
+from .calibration import Calibration
 from .processstep import ProcessStep
+from .recording import Recording
+from .software import Software
 
 
 @forge_signature
-class Measurement(sdRDM.DataModel):
-    """The Measurement encompasses key details about the conducted experiment."""
+class Measurement(sdRDM.DataModel, search_mode="unordered"):
+    """*The Measurement encompasses key details about the conducted experiment and its calibration.*"""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("measurementINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    name: str = Field(
-        ...,
-        description="Name of the experiment",
+    name: str = element(
+        description=(
+            "Name of the experiment.It should contain all relevant information about"
+            " the expe."
+        ),
+        tag="name",
+        json_schema_extra=dict(),
     )
 
-    recordings: List[Recording] = Field(
-        description="Recordings that have been done in the course of the experiment",
+    calibration: List[Calibration] = element(
+        description="Calibration that has been done before the actual experiment.",
         default_factory=ListPlus,
-        multiple=True,
+        tag="calibration",
+        json_schema_extra=dict(multiple=True),
     )
 
-    processing_steps: List[ProcessStep] = Field(
-        description="Processed video data of the flow measurement",
+    recordings: List[Recording] = element(
+        description="Recordings that have been done in the course of the experiment.",
         default_factory=ListPlus,
-        multiple=True,
+        tag="recordings",
+        json_schema_extra=dict(multiple=True),
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
+    processing_steps: List[ProcessStep] = element(
+        description="Processing steps and processed video data of the experiment",
+        default_factory=ListPlus,
+        tag="processing_steps",
+        json_schema_extra=dict(multiple=True),
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
+    _commit: Optional[str] = PrivateAttr(
+        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+    )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self
+
+    def add_to_calibration(
+        self,
+        calibration_type: str,
+        scale_factor: float,
+        camera_position_translation: Optional[float] = None,
+        camera_position_rotation: Optional[float] = None,
+        calibration_image: Optional[bytes] = None,
+        id: Optional[str] = None,
+    ) -> Calibration:
+        """
+        This method adds an object of type 'Calibration' to attribute calibration
+
+        Args:
+            id (str): Unique identifier of the 'Calibration' object. Defaults to 'None'.
+            calibration_type (): Specify the calibration plate and/or the calibration facility which was used for calibration..
+            scale_factor (): Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \\[px/mm].
+            camera_position_translation (): Value of the translation of the camera position relative to the calibration plate. \\[m]. Defaults to None
+            camera_position_rotation (): Value of the rotation of the camera position relative to the calibration plate. \\[°]. Defaults to None
+            calibration_image (): The actual calibration image which was used.. Defaults to None
+        """
+        params = {
+            "calibration_type": calibration_type,
+            "scale_factor": scale_factor,
+            "camera_position_translation": camera_position_translation,
+            "camera_position_rotation": camera_position_rotation,
+            "calibration_image": calibration_image,
+        }
+        if id is not None:
+            params["id"] = id
+        self.calibration.append(Calibration(**params))
+        return self.calibration[-1]
 
     def add_to_recordings(
         self,
-        camera_id: Camera,
         time: float,
         repetition_rate: float,
         field_of_view: str,
-        height: Optional[PositiveInt] = None,
-        width: Optional[PositiveInt] = None,
         n_frames: Optional[int] = None,
-        frames: Optional[Union[NDArray, H5Dataset]] = None,
+        frames: Optional[bytes] = None,
+        location: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Recording:
         """
         This method adds an object of type 'Recording' to attribute recordings
 
         Args:
             id (str): Unique identifier of the 'Recording' object. Defaults to 'None'.
-            camera_id (): ID of the camera that has been used.
-            time (): Value of the investigated time period in s.
-            repetition_rate (): Value of the recording repetition rate in Hz.
-            field_of_view (): Value of the field of view in m x m.
-            height (): Height of the image. Defaults to None
-            width (): Width of the image. Defaults to None
-            n_frames (): Number of frames found in this video. Defaults to None
-            frames (): Videoframes. Defaults to None
+            time (): Value of the investigated time period. \\[s].
+            repetition_rate (): Value of the recording repetition rate. \\[Hz].
+            field_of_view (): Value of the field of view. \\[m x m].
+            n_frames (): Number of frames found in this video.. Defaults to None
+            frames (): The actual Videoframes of the raw video. Defaults to None
+            location (): Specify the local filepath to the location of the recordings.. Defaults to None
         """
-
         params = {
-            "camera_id": camera_id,
             "time": time,
             "repetition_rate": repetition_rate,
             "field_of_view": field_of_view,
-            "height": height,
-            "width": width,
             "n_frames": n_frames,
             "frames": frames,
+            "location": location,
         }
-
         if id is not None:
             params["id"] = id
-
         self.recordings.append(Recording(**params))
+        return self.recordings[-1]
 
     def add_to_processing_steps(
         self,
         name: str,
-        processed_recording: Recording,
-        software: Software,
+        processed_recording: List[Recording] = ListPlus(),
+        software: List[Software] = ListPlus(),
         id: Optional[str] = None,
-    ) -> None:
+    ) -> ProcessStep:
         """
         This method adds an object of type 'ProcessStep' to attribute processing_steps
 
         Args:
             id (str): Unique identifier of the 'ProcessStep' object. Defaults to 'None'.
-            name (): Name of the processing step.
-            processed_recording (): Resulting video from the processing.
-            software (): Software that has been used to perform the processing step.
+            name (): Full name of the processing step..
+            processed_recording (): Resulting video after applying the process steps and the raw video.. Defaults to ListPlus()
+            software (): Software that has been used to perform the processing steps.. Defaults to ListPlus()
         """
-
         params = {
             "name": name,
             "processed_recording": processed_recording,
             "software": software,
         }
-
         if id is not None:
             params["id"] = id
-
         self.processing_steps.append(ProcessStep(**params))
+        return self.processing_steps[-1]

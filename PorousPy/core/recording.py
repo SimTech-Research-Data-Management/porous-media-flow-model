@@ -1,77 +1,85 @@
 import sdRDM
 
-from typing import Optional, Union
-from pydantic import PrivateAttr, Field, validator
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic.types import PositiveInt
-from numpy.typing import NDArray
-from h5py._hl.dataset import Dataset as H5Dataset
-from typing import Union
-
-from .camera import Camera
+from typing import Dict, Optional
+from pydantic import PrivateAttr, model_validator, validator
+from uuid import uuid4
+from pydantic_xml import attr, element
+from lxml.etree import _Element
+from sdRDM.base.listplus import ListPlus
+from sdRDM.base.utils import forge_signature
+from sdRDM.tools.utils import elem2dict
 
 
 @forge_signature
-class Recording(sdRDM.DataModel):
-    """The Recording contains crucial information about the parameters used during the recording process.
+class Recording(sdRDM.DataModel, search_mode="unordered"):
+    """*The Recording contains crucial information about the parameters used during the recording process.
     These parameters offer valuable insights into the experimental setup, facilitating accurate analysis and interpretation of the recorded data.
-    The inclusion of the video frames allows for a visual reference and further examination of the recorded footage.
+    The inclusion of the video frames allows for a visual reference and further examination of the recorded footage.*
     """
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("recordingINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    camera_id: Union[Camera, str] = Field(
-        ...,
-        reference="Camera.id",
-        description="ID of the camera that has been used",
+    time: float = element(
+        description="Value of the investigated time period. \\[s]",
+        tag="time",
+        json_schema_extra=dict(),
     )
 
-    time: float = Field(
-        ...,
-        description="Value of the investigated time period in s",
+    repetition_rate: float = element(
+        description="Value of the recording repetition rate. \\[Hz]",
+        tag="repetition_rate",
+        json_schema_extra=dict(),
     )
 
-    repetition_rate: float = Field(
-        ...,
-        description="Value of the recording repetition rate in Hz",
+    field_of_view: str = element(
+        description="Value of the field of view. \\[m x m]",
+        tag="field_of_view",
+        json_schema_extra=dict(),
     )
 
-    field_of_view: str = Field(
-        ...,
-        description="Value of the field of view in m x m",
-    )
-
-    height: Optional[PositiveInt] = Field(
+    n_frames: Optional[int] = element(
+        description="Number of frames found in this video.",
         default=None,
-        description="Height of the image",
+        tag="n_frames",
+        json_schema_extra=dict(),
     )
 
-    width: Optional[PositiveInt] = Field(
+    frames: Optional[bytes] = element(
+        description="The actual Videoframes of the raw video",
         default=None,
-        description="Width of the image",
+        tag="frames",
+        json_schema_extra=dict(),
     )
 
-    n_frames: Optional[int] = Field(
+    location: Optional[str] = element(
+        description="Specify the local filepath to the location of the recordings.",
         default=None,
-        description="Number of frames found in this video",
+        tag="location",
+        json_schema_extra=dict(),
     )
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+    )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
-    frames: Optional[Union[NDArray, H5Dataset]] = Field(
-        default=None,
-        description="Videoframes",
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
-    )
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self
 
     @validator("camera_id")
     def get_camera_id_reference(cls, value):
