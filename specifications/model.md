@@ -196,6 +196,9 @@ They include the topology of the porous media model, the dimensions and other re
 * **porosity**
   * Type: float
   * Description: Value of the porous media model porosity. \[ - ]
+* permeability
+  * Type: float
+  * Description: Value of the porous media model permeability. \[m^2]
 * periodicity\_x
   * Type: float
   * Description: Value of the porous media model periodicity in x-direction. \[m]
@@ -349,7 +352,7 @@ The parameters are providing insights into the camera position relative to the e
   * Description: Value of the translation of the camera position relative to the calibration plate. \[m]
 * camera\_position\_rotation
   * Type: float
-  * Description: Value of the rotation of the camera position relative to the calibration plate. \[Â°]
+  * Description: Value of the rotation of the camera position relative to the calibration plate. \[ÃÂ°]
 * **scale\_factor**
   * Type: float
   * Description: Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \[px/mm]
