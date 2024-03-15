@@ -216,7 +216,7 @@ The Hardware container includes descriptions of the camera systems, laser system
 *The Hardware includes descriptions of the camera systems, laser systems, seeding devices and materials, optical devices, and triggering systems utilized during the experiment.*
 
 * **camera**
-  * Type : [Camera](#camera-device)
+  * Type: [Camera](#camera-device)
   * Multiple: True
   * Description: Description of the used camera system.
 * **laser**
@@ -349,7 +349,7 @@ The parameters are providing insights into the camera position relative to the e
   * Description: Value of the translation of the camera position relative to the calibration plate. \[m]
 * camera\_position\_rotation
   * Type: float
-  * Description: Value of the rotation of the camera position relative to the calibration plate. \[°]
+  * Description: Value of the rotation of the camera position relative to the calibration plate. \[Â°]
 * **scale\_factor**
   * Type: float
   * Description: Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \[px/mm]
