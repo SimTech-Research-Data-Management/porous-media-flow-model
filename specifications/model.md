@@ -152,6 +152,7 @@ These parameters provide a comprehensive understanding of the fluid's properties
   * Description: Value of the dynamic fluid viscosity \[mPas]
 * **mass\_flux**
   * Type: float
+  * Multiple: True
   * Description:  Value of the fluid mass flux \[kg/s]
 * **reynolds\_number**
   * Type: float
@@ -325,7 +326,7 @@ The section also provides insights into the software used for processing and the
 
 * **name**
   * Type: string
-  * Description: Name of the experiment.It should contain all relevant information about the expe.
+  * Description: Name of the experiment.It should contain all relevant information about the experiment.
 * calibration
   * Type: [Calibration](#calibration)
   * Description: Calibration that has been done before the actual experiment.
@@ -352,7 +353,7 @@ The parameters are providing insights into the camera position relative to the e
   * Description: Value of the translation of the camera position relative to the calibration plate. \[m]
 * camera\_position\_rotation
   * Type: float
-  * Description: Value of the rotation of the camera position relative to the calibration plate. \[ÃÂ°]
+  * Description: Value of the rotation of the camera position relative to the calibration plate. \[ÃÂÃÂ°]
 * **scale\_factor**
   * Type: float
   * Description: Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \[px/mm]
@@ -369,7 +370,10 @@ Additionally, files with the extension ".lvs" from the Davis 10 software can be 
 * **name**
   * Type: string
   * Description: Full name of the processing step.
-* **processed\_recording**
+* operation\_list
+  * Type: NDArray
+  * Description: List of processing steps carried out with the processing software.
+* processed\_recording
   * Type: [Recording](#recording)
   * Description: Resulting video after applying the process steps and the raw video.
   * Multiple: True
