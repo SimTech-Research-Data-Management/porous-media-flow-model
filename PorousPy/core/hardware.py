@@ -8,12 +8,12 @@ from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-from .device import Device
-from .camera import Camera
 from .triggering import Triggering
-from .seeding import Seeding
-from .seedingparameters import SeedingParameters
+from .device import Device
 from .laser import Laser
+from .camera import Camera
+from .seedingparameters import SeedingParameters
+from .seeding import Seeding
 
 
 @forge_signature
@@ -68,7 +68,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 

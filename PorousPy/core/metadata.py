@@ -1,38 +1,31 @@
 import sdRDM
 
 from typing import Dict, List, Optional
-from uuid import uuid4
 from pydantic import PrivateAttr, model_validator
+from uuid import uuid4
 from pydantic_xml import attr, element
 from lxml.etree import _Element
-
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-
-
 from datetime import datetime as Datetime
-
-from .device import Device
 from .processstep import ProcessStep
-from .freeflow import FreeFlow
-from .camera import Camera
-from .triggering import Triggering
-from .seeding import Seeding
-from .laser import Laser
 from .calibration import Calibration
-from .model import Model
-from .recording import Recording
-from .author import Author
 from .measurement import Measurement
+from .freeflow import FreeFlow
+from .author import Author
+from .device import Device
+from .triggering import Triggering
+from .camera import Camera
+from .laser import Laser
+from .model import Model
+from .seeding import Seeding
 from .hardware import Hardware
+from .recording import Recording
 
 
 @forge_signature
-class Metadata(
-    sdRDM.DataModel,
-    search_mode="unordered",
-):
+class Metadata(sdRDM.DataModel, search_mode="unordered"):
     """*The Metadata summarizes key information about the following dataset. It includes a description of the dataset's content, a descriptive name or ID of the dataset, and the date of creation. It also lists the contributors, highlights the research areas which are covered and specifies the specific porous media model investigated. Descriptive keywords help categorize the dataset and the the hardware used in the experiment is also stored. Free flow conditions of the turbulent air flow are also stored. The Metadata provides detailed information about the measurements conducted in the experiment.*"""
 
     id: Optional[str] = attr(
@@ -67,18 +60,14 @@ class Metadata(
         description="Persons who worked on the dataset.",
         default_factory=ListPlus,
         tag="authors",
-        json_schema_extra=dict(
-            multiple=True,
-        ),
+        json_schema_extra=dict(multiple=True),
     )
 
     subjects: List[str] = element(
         description="Research subjects covered by the dataset.",
         default_factory=ListPlus,
         tag="subjects",
-        json_schema_extra=dict(
-            multiple=True,
-        ),
+        json_schema_extra=dict(multiple=True),
     )
 
     model: Optional[Model] = element(
@@ -92,18 +81,14 @@ class Metadata(
         description="Descriptive keywords to describe the dataset.",
         default_factory=ListPlus,
         tag="keywords",
-        json_schema_extra=dict(
-            multiple=True,
-        ),
+        json_schema_extra=dict(multiple=True),
     )
 
     devices: List[Hardware] = element(
         description="Experimental devices used in the dataset.",
         default_factory=ListPlus,
         tag="devices",
-        json_schema_extra=dict(
-            multiple=True,
-        ),
+        json_schema_extra=dict(multiple=True),
     )
 
     free_flow: Optional[FreeFlow] = element(
@@ -120,16 +105,13 @@ class Metadata(
         ),
         default_factory=ListPlus,
         tag="measurements",
-        json_schema_extra=dict(
-            multiple=True,
-        ),
+        json_schema_extra=dict(multiple=True),
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -137,12 +119,11 @@ class Metadata(
     def _parse_raw_xml_data(self):
         for attr, value in self:
             if isinstance(value, (ListPlus, list)) and all(
-                isinstance(i, _Element) for i in value
+                (isinstance(i, _Element) for i in value)
             ):
                 self._raw_xml_data[attr] = [elem2dict(i) for i in value]
             elif isinstance(value, _Element):
                 self._raw_xml_data[attr] = elem2dict(value)
-
         return self
 
     def add_to_authors(
@@ -163,19 +144,15 @@ class Metadata(
             email (): E-Mail adress of the author..
             phone (): Phone number of the author.. Defaults to None
         """
-
         params = {
             "name": name,
             "affiliation": affiliation,
             "email": email,
             "phone": phone,
         }
-
         if id is not None:
             params["id"] = id
-
         self.authors.append(Author(**params))
-
         return self.authors[-1]
 
     def add_to_devices(
@@ -198,7 +175,6 @@ class Metadata(
             optics (): Description of the used optical devices (e.g. laserarms, lenses, beamsplitter, sheet optics, ...).. Defaults to ListPlus()
             triggering (): Description of the used triggering devices.. Defaults to ListPlus()
         """
-
         params = {
             "camera": camera,
             "laser": laser,
@@ -206,12 +182,9 @@ class Metadata(
             "optics": optics,
             "triggering": triggering,
         }
-
         if id is not None:
             params["id"] = id
-
         self.devices.append(Hardware(**params))
-
         return self.devices[-1]
 
     def add_to_measurements(
@@ -227,22 +200,18 @@ class Metadata(
 
         Args:
             id (str): Unique identifier of the 'Measurement' object. Defaults to 'None'.
-            name (): Name of the experiment.It should contain all relevant information about the expe..
+            name (): Name of the experiment.It should contain all relevant information about the experiment..
             calibration (): Calibration that has been done before the actual experiment.. Defaults to ListPlus()
             recordings (): Recordings that have been done in the course of the experiment.. Defaults to ListPlus()
             processing_steps (): Processing steps and processed video data of the experiment. Defaults to ListPlus()
         """
-
         params = {
             "name": name,
             "calibration": calibration,
             "recordings": recordings,
             "processing_steps": processing_steps,
         }
-
         if id is not None:
             params["id"] = id
-
         self.measurements.append(Measurement(**params))
-
         return self.measurements[-1]

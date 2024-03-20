@@ -1,21 +1,17 @@
 import sdRDM
 
 from typing import Dict, Optional
-from uuid import uuid4
 from pydantic import PrivateAttr, model_validator
+from uuid import uuid4
 from pydantic_xml import attr, element
 from lxml.etree import _Element
-
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
 
 
 @forge_signature
-class Calibration(
-    sdRDM.DataModel,
-    search_mode="unordered",
-):
+class Calibration(sdRDM.DataModel, search_mode="unordered"):
     """*The Calibration contains information about the parameters used during the recording process.
     The parameters are providing insights into the camera position relative to the experiment for correcting possible misalignments.*
     """
@@ -39,7 +35,7 @@ class Calibration(
     camera_position_translation: Optional[float] = element(
         description=(
             "Value of the translation of the camera position relative to the"
-            " calibration plate. \[m]"
+            " calibration plate. \\[m]"
         ),
         default=None,
         tag="camera_position_translation",
@@ -49,7 +45,7 @@ class Calibration(
     camera_position_rotation: Optional[float] = element(
         description=(
             "Value of the rotation of the camera position relative to the calibration"
-            " plate. \[°]"
+            " plate. \\[Ã\x83Â\x82Ã\x82Â°]"
         ),
         default=None,
         tag="camera_position_rotation",
@@ -59,7 +55,7 @@ class Calibration(
     scale_factor: float = element(
         description=(
             "Value of the scale factor of the recordings.The amount of pixels"
-            " corresponding to the length of 1 mm. \[px/mm]"
+            " corresponding to the length of 1 mm. \\[px/mm]"
         ),
         tag="scale_factor",
         json_schema_extra=dict(),
@@ -71,12 +67,11 @@ class Calibration(
         tag="calibration_image",
         json_schema_extra=dict(),
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -84,10 +79,9 @@ class Calibration(
     def _parse_raw_xml_data(self):
         for attr, value in self:
             if isinstance(value, (ListPlus, list)) and all(
-                isinstance(i, _Element) for i in value
+                (isinstance(i, _Element) for i in value)
             ):
                 self._raw_xml_data[attr] = [elem2dict(i) for i in value]
             elif isinstance(value, _Element):
                 self._raw_xml_data[attr] = elem2dict(value)
-
         return self

@@ -60,7 +60,7 @@ classDiagram
         +float density*
         +float kinematic_viscosity*
         +float dynamic_viscosity*
-        +float mass_flux*
+        +float[0..*] mass_flux*
         +float[0..*] reynolds_number*
     }
     
@@ -77,6 +77,7 @@ classDiagram
         +float width*
         +float depth*
         +float porosity*
+        +float permeability
         +float periodicity_x
         +float periodicity_y
         +float wall_thickness
@@ -139,7 +140,8 @@ classDiagram
     
     class ProcessStep {
         +string name*
-        +Recording[0..*] processed_recording*
+        +NDArray operation_list
+        +Recording[0..*] processed_recording
         +Software[0..*] software*
     }
     

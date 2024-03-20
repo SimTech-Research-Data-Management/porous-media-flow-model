@@ -59,10 +59,11 @@ class FlowParameters(sdRDM.DataModel, search_mode="unordered"):
         json_schema_extra=dict(),
     )
 
-    mass_flux: float = element(
+    mass_flux: List[float] = element(
         description="Value of the fluid mass flux \\[kg/s]",
+        default_factory=ListPlus,
         tag="mass_flux",
-        json_schema_extra=dict(),
+        json_schema_extra=dict(multiple=True),
     )
 
     reynolds_number: List[float] = element(
@@ -75,7 +76,7 @@ class FlowParameters(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 

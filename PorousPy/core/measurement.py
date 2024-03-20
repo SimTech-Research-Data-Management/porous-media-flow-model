@@ -1,6 +1,6 @@
 import sdRDM
 
-from typing import Dict, List, Optional
+from typing import Optional, Union, List, Dict
 from pydantic import PrivateAttr, model_validator
 from uuid import uuid4
 from pydantic_xml import attr, element
@@ -8,10 +8,12 @@ from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-from .calibration import Calibration
+from numpy.typing import NDArray
+from h5py._hl.dataset import Dataset as H5Dataset
 from .processstep import ProcessStep
-from .recording import Recording
+from .calibration import Calibration
 from .software import Software
+from .recording import Recording
 
 
 @forge_signature
@@ -28,7 +30,7 @@ class Measurement(sdRDM.DataModel, search_mode="unordered"):
     name: str = element(
         description=(
             "Name of the experiment.It should contain all relevant information about"
-            " the expe."
+            " the experiment."
         ),
         tag="name",
         json_schema_extra=dict(),
@@ -58,7 +60,7 @@ class Measurement(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -90,7 +92,7 @@ class Measurement(sdRDM.DataModel, search_mode="unordered"):
             calibration_type (): Specify the calibration plate and/or the calibration facility which was used for calibration..
             scale_factor (): Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. \\[px/mm].
             camera_position_translation (): Value of the translation of the camera position relative to the calibration plate. \\[m]. Defaults to None
-            camera_position_rotation (): Value of the rotation of the camera position relative to the calibration plate. \\[°]. Defaults to None
+            camera_position_rotation (): Value of the rotation of the camera position relative to the calibration plate. \\[Ã\x83Â\x82Ã\x82Â°]. Defaults to None
             calibration_image (): The actual calibration image which was used.. Defaults to None
         """
         params = {
@@ -143,6 +145,7 @@ class Measurement(sdRDM.DataModel, search_mode="unordered"):
     def add_to_processing_steps(
         self,
         name: str,
+        operation_list: Optional[Union[NDArray, H5Dataset]] = None,
         processed_recording: List[Recording] = ListPlus(),
         software: List[Software] = ListPlus(),
         id: Optional[str] = None,
@@ -153,11 +156,13 @@ class Measurement(sdRDM.DataModel, search_mode="unordered"):
         Args:
             id (str): Unique identifier of the 'ProcessStep' object. Defaults to 'None'.
             name (): Full name of the processing step..
+            operation_list (): List of processing steps carried out with the processing software.. Defaults to None
             processed_recording (): Resulting video after applying the process steps and the raw video.. Defaults to ListPlus()
             software (): Software that has been used to perform the processing steps.. Defaults to ListPlus()
         """
         params = {
             "name": name,
+            "operation_list": operation_list,
             "processed_recording": processed_recording,
             "software": software,
         }
