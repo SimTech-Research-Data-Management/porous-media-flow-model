@@ -1,63 +1,99 @@
 import sdRDM
 
-from typing import Optional
-from pydantic import Field, PrivateAttr
-from sdRDM.base.utils import forge_signature, IDGenerator
-
-
+from typing import Dict, Optional
+from pydantic import PrivateAttr, model_validator
+from uuid import uuid4
+from pydantic_xml import attr, element
+from lxml.etree import _Element
+from sdRDM.base.listplus import ListPlus
+from sdRDM.base.utils import forge_signature
+from sdRDM.tools.utils import elem2dict
 from .flowparameters import FlowParameters
 
 
 @forge_signature
-class FreeFlow(sdRDM.DataModel):
-    """The Free Flow section contains information about the shape, dimensions, and working fluid of the free flow channel.
-    It provides details such as the shape of the flow channel's cross-section, the hydraulic diameter, height, width and depth of the channel and a description of the flow parameters of the working fluid.
+class FreeFlow(sdRDM.DataModel, search_mode="unordered"):
+    """*The Free Flow section contains information about the shape, dimensions, and working fluid of the free flow channel.
+    It provides details such as the shape of the flow channel's cross-section, the hydraulic diameter, height, width and depth of the channel and a description of the flow parameters of the working fluid.*
     """
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("freeflowINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    shape: str = Field(
-        ...,
-        description="Shape of the flow channels cross section",
+    shape: str = element(
+        description=(
+            "Shape of the flow channel's cross section (e.g. rectangular, round, ...)"
+        ),
+        tag="shape",
+        json_schema_extra=dict(),
     )
 
-    hydraulic_diameter: float = Field(
-        ...,
-        description="Value of the hydraulic diameter in m",
+    hydraulic_diameter: float = element(
+        description="Value of the channel's hydraulic diameter. \\[m]",
+        tag="hydraulic_diameter",
+        json_schema_extra=dict(),
     )
 
-    height: Optional[float] = Field(
+    height: Optional[float] = element(
+        description=(
+            "Value of the channel height, assuming a rectangular channel. \\[m]"
+        ),
         default=None,
-        description="Value of the flow channel height in m",
+        tag="height",
+        json_schema_extra=dict(),
     )
 
-    width: Optional[float] = Field(
+    width: Optional[float] = element(
+        description=(
+            "Value of the flow channel width, assuming a rectangular channel. \\[m]"
+        ),
         default=None,
-        description="Value of the flow channel width in m",
+        tag="width",
+        json_schema_extra=dict(),
     )
 
-    depth: Optional[float] = Field(
+    depth: Optional[float] = element(
+        description=(
+            "Value of the flow channel depth, assuming a rectangular channel. \\[m]"
+        ),
         default=None,
-        description="Value of the flow channel depth in m",
+        tag="depth",
+        json_schema_extra=dict(),
     )
 
-    diameter: Optional[float] = Field(
+    diameter: Optional[float] = element(
+        description=(
+            "Value of the flow channel diameter, assuming a round channel. \\[m]"
+        ),
         default=None,
-        description="Value of the flow channel diameter in m",
+        tag="diameter",
+        json_schema_extra=dict(),
     )
 
-    fluid: FlowParameters = Field(
-        ...,
-        description="Description of flow parameters",
+    fluid: FlowParameters = element(
+        description="Description of the free flow parameters during the dataset.",
+        tag="fluid",
+        json_schema_extra=dict(),
     )
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+    )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
-    )
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self

@@ -1,72 +1,91 @@
 import sdRDM
 
-from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from typing import Dict, List, Optional
+from pydantic import PrivateAttr, model_validator
+from uuid import uuid4
+from pydantic_xml import attr, element
+from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
+from sdRDM.base.utils import forge_signature
+from sdRDM.tools.utils import elem2dict
 
 
 @forge_signature
-class FlowParameters(sdRDM.DataModel):
-    """The Flow Parameters encompasses crucial details about the flow parameters of the working fluid used in the present dataset.
-    These parameters provide a comprehensive understanding of the fluid's properties and flow conditions within the experiment.
+class FlowParameters(sdRDM.DataModel, search_mode="unordered"):
+    """*The Flow Parameters encompasses crucial details about the flow parameters of the working fluid used in the present dataset.
+    These parameters provide a comprehensive understanding of the fluid's properties and flow conditions within the experiment.*
     """
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("flowparametersINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    fluid: str = Field(
-        ...,
-        description="Name of the free flow fluid",
+    fluid: str = element(
+        description="Name of the free flow fluid (e.g. dry air, water, ...)",
+        tag="fluid",
+        json_schema_extra=dict(),
     )
 
-    temperature: float = Field(
-        ...,
-        description="Value of the fluid temperature in K",
+    temperature: float = element(
+        description="Value of the fluid temperature at the inlet. \\[K]",
+        tag="temperature",
+        json_schema_extra=dict(),
     )
 
-    pressure: float = Field(
-        ...,
-        description="Value of the fluid pressure in bar",
+    pressure: float = element(
+        description="Value of the fluid pressure at the outlet. \\[bar]",
+        tag="pressure",
+        json_schema_extra=dict(),
     )
 
-    density: float = Field(
-        ...,
-        description="Value of the fluid density in kg/m^3",
+    density: float = element(
+        description="Value of the fluid density \\[kg/m^3]",
+        tag="density",
+        json_schema_extra=dict(),
     )
 
-    kinematic_viscosity: float = Field(
-        ...,
-        description="Value of the fluid kinematic viscosity in m^2/s",
+    kinematic_viscosity: float = element(
+        description="Value of the fluid kinematic viscosity \\[m^2/s]",
+        tag="kinematic_viscosity",
+        json_schema_extra=dict(),
     )
 
-    dynamic_viscosity: float = Field(
-        ...,
-        description="Value of the dynamic fluid viscosity in mPas",
+    dynamic_viscosity: float = element(
+        description="Value of the dynamic fluid viscosity \\[mPas]",
+        tag="dynamic_viscosity",
+        json_schema_extra=dict(),
     )
 
-    flow_velocity: float = Field(
-        ...,
-        description="Value of the fluid flow velocity in m/s",
+    mass_flux: float = element(
+        description="Value of the fluid mass flux \\[kg/s]",
+        tag="mass_flux",
+        json_schema_extra=dict(),
     )
 
-    mass_flux: float = Field(
-        ...,
-        description="Value of the fluid mass flux in kg/s",
-    )
-
-    reynolds_number: List[float] = Field(
-        multiple=True,
-        description="Value(s) of investigated Reynolds number(s)",
+    reynolds_number: List[float] = element(
+        description="Value(s) of investigated channel Reynolds number(s). \\[ - ]",
         default_factory=ListPlus,
+        tag="reynolds_number",
+        json_schema_extra=dict(multiple=True),
     )
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="2535a1c6d00880d1546dce3ed835fcc5e3bfb375"
+    )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="6ceb1857568aa5664c3d40d0d0d5ed03742f2f00"
-    )
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self

@@ -1,9 +1,9 @@
-from .porousmediadocument import PorousMediaDocument
+from .metadata import Metadata
 from .author import Author
 from .freeflow import FreeFlow
 from .flowparameters import FlowParameters
 from .model import Model
-from .porousmediaparameters import PorousMediaParameters
+from .porousmedia import PorousMedia
 from .hardware import Hardware
 from .device import Device
 from .camera import Camera
@@ -12,19 +12,19 @@ from .seeding import Seeding
 from .seedingparameters import SeedingParameters
 from .triggering import Triggering
 from .measurement import Measurement
+from .calibration import Calibration
 from .processstep import ProcessStep
 from .software import Software
 from .recording import Recording
 
 __doc__ = ""
-
 __all__ = [
-    "PorousMediaDocument",
+    "Metadata",
     "Author",
     "FreeFlow",
     "FlowParameters",
     "Model",
-    "PorousMediaParameters",
+    "PorousMedia",
     "Hardware",
     "Device",
     "Camera",
@@ -33,6 +33,7 @@ __all__ = [
     "SeedingParameters",
     "Triggering",
     "Measurement",
+    "Calibration",
     "ProcessStep",
     "Software",
     "Recording",
