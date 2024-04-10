@@ -1,3 +1,3 @@
 
 __URL__ = "https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
-__COMMIT__ = "07eea00104b98a757878bf718d0cd3baf4ea52d5"
+__COMMIT__ = "d9cbe04e5a17a9543e7cb10ad90843d10faaac18"

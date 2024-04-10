@@ -10,8 +10,8 @@ from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
 from numpy.typing import NDArray
 from h5py._hl.dataset import Dataset as H5Dataset
-from .software import Software
 from .recording import Recording
+from .software import Software
 
 
 @forge_signature
@@ -62,7 +62,7 @@ class ProcessStep(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
+        default="d9cbe04e5a17a9543e7cb10ad90843d10faaac18"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -86,6 +86,7 @@ class ProcessStep(sdRDM.DataModel, search_mode="unordered"):
         frames: Optional[bytes] = None,
         location: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Recording:
         """
         This method adds an object of type 'Recording' to attribute processed_recording
@@ -118,6 +119,7 @@ class ProcessStep(sdRDM.DataModel, search_mode="unordered"):
         name: str,
         version: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Software:
         """
         This method adds an object of type 'Software' to attribute software

@@ -8,12 +8,12 @@ from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-from .triggering import Triggering
 from .device import Device
+from .seeding import Seeding
+from .seedingparameters import SeedingParameters
 from .laser import Laser
 from .camera import Camera
-from .seedingparameters import SeedingParameters
-from .seeding import Seeding
+from .triggering import Triggering
 
 
 @forge_signature
@@ -68,7 +68,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
+        default="d9cbe04e5a17a9543e7cb10ad90843d10faaac18"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -90,6 +90,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         sensor: Optional[str] = None,
         model: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Camera:
         """
         This method adds an object of type 'Camera' to attribute camera
@@ -120,6 +121,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         power: Optional[float] = None,
         model: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Laser:
         """
         This method adds an object of type 'Laser' to attribute laser
@@ -150,6 +152,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         manufacturer: str,
         model: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Seeding:
         """
         This method adds an object of type 'Seeding' to attribute seeding
@@ -167,7 +170,11 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         return self.seeding[-1]
 
     def add_to_optics(
-        self, manufacturer: str, model: Optional[str] = None, id: Optional[str] = None
+        self,
+        manufacturer: str,
+        model: Optional[str] = None,
+        id: Optional[str] = None,
+        **kwargs
     ) -> Device:
         """
         This method adds an object of type 'Device' to attribute optics
@@ -189,6 +196,7 @@ class Hardware(sdRDM.DataModel, search_mode="unordered"):
         manufacturer: str,
         model: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Triggering:
         """
         This method adds an object of type 'Triggering' to attribute triggering

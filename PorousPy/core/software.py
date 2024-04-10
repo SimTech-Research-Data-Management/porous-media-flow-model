@@ -46,7 +46,7 @@ class Software(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
+        default="d9cbe04e5a17a9543e7cb10ad90843d10faaac18"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 

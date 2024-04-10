@@ -7,8 +7,8 @@ from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-from .device import Device
 from .seedingparameters import SeedingParameters
+from .device import Device
 
 
 @forge_signature
@@ -33,7 +33,7 @@ class Seeding(Device, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
+        default="d9cbe04e5a17a9543e7cb10ad90843d10faaac18"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 

@@ -9,19 +9,19 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
 from datetime import datetime as Datetime
-from .processstep import ProcessStep
-from .calibration import Calibration
-from .measurement import Measurement
-from .freeflow import FreeFlow
-from .author import Author
-from .device import Device
-from .triggering import Triggering
-from .camera import Camera
-from .laser import Laser
-from .model import Model
 from .seeding import Seeding
-from .hardware import Hardware
+from .freeflow import FreeFlow
+from .camera import Camera
+from .measurement import Measurement
+from .laser import Laser
 from .recording import Recording
+from .device import Device
+from .processstep import ProcessStep
+from .triggering import Triggering
+from .model import Model
+from .author import Author
+from .hardware import Hardware
+from .calibration import Calibration
 
 
 @forge_signature
@@ -111,7 +111,7 @@ class Metadata(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/SimTech-Research-Data-Management/porous-media-flow-model"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="07eea00104b98a757878bf718d0cd3baf4ea52d5"
+        default="d9cbe04e5a17a9543e7cb10ad90843d10faaac18"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -133,6 +133,7 @@ class Metadata(sdRDM.DataModel, search_mode="unordered"):
         email: str,
         phone: Optional[int] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Author:
         """
         This method adds an object of type 'Author' to attribute authors
@@ -163,6 +164,7 @@ class Metadata(sdRDM.DataModel, search_mode="unordered"):
         optics: List[Device] = ListPlus(),
         triggering: List[Triggering] = ListPlus(),
         id: Optional[str] = None,
+        **kwargs
     ) -> Hardware:
         """
         This method adds an object of type 'Hardware' to attribute devices
@@ -194,6 +196,7 @@ class Metadata(sdRDM.DataModel, search_mode="unordered"):
         recordings: List[Recording] = ListPlus(),
         processing_steps: List[ProcessStep] = ListPlus(),
         id: Optional[str] = None,
+        **kwargs
     ) -> Measurement:
         """
         This method adds an object of type 'Measurement' to attribute measurements
