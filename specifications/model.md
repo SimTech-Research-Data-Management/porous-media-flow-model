@@ -140,7 +140,7 @@ These parameters provide a comprehensive understanding of the fluid's properties
   * Description: Value of the fluid temperature at the inlet. \[K]
 * **pressure**
   * Type: float
-  * Description: Value of the fluid pressure at the outlet. \[bar]
+  * Description: Value of the fluid pressure at the outlet. \[Pa]
 * **density**
   * Type: float
   * Description: Value of the fluid density \[kg/m^3]
