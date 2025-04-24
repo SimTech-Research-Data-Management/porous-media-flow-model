@@ -51,7 +51,7 @@ The framework implements a standardized data storage format for PIV recordings w
 
 ## 📁 Project Structure
 
-- `specifications/`: 📄 Data model and API specifications
+- `specifications/`: 📄 Data model specifications
 - `diagrams/`: 🔄 System architecture and flow diagrams
 - `schemes/`: 🗂️ Data schemas and validation rules
 - `docs/`: 📚 Documentation and usage guides
