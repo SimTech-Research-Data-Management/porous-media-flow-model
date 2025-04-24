@@ -1,0 +1,17 @@
+[meta]
+name = "PorousMedia"
+description = "This is a code and schema generator for PorousMedia."
+paths = ["specifications/v1.md"]
+
+[generate]
+xml-schema = { out = "schemes/*/porous-media-*.xsd", per-spec = true }
+protobuf = { out = "schemes/*/porous-media-*.proto", per-spec = true }
+graphql = { out = "schemes/*/porous-media-*.graphql", per-spec = true }
+linkml = { out = "schemes/*/porous-media-*-linkml.yaml", per-spec = true }
+json-schema = { out = "schemes/*/porous-media-*.json", root = "Metadata", per-spec = true }
+mk-docs = { out = "docs/versions/*.md", nav = "true", per-spec = true }
+golang = { out = "porous-media-go/src/*.go", per-spec = true, gorm = "true" }
+typescript-zod = { out = "porous-media-ts/src/*.ts", per-spec = true }
+julia = { out = "porous-media-jl/src/*.jl", per-spec = true, fname-case = "Pascal" }
+python-pydantic = { out = "porous-media-py/src/*.py", per-spec = true }
+mermaid = { out = "diagrams/*.md", per-spec = true }

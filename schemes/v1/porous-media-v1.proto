@@ -1,0 +1,267 @@
+/**
+ * This file contains Protocol Buffer message definitions.
+ *
+ * Protocol Buffers (protobuf) is Google's language-neutral, platform-neutral,
+ * extensible mechanism for serializing structured data.
+ *
+ * WARNING: This is an auto-generated file.
+ * Do not edit directly - any changes will be overwritten.
+ */
+
+
+syntax = "proto3";
+
+package porousmedia;
+
+//
+// PorousMedia Message definitions
+//
+// OneOf type definitions for attributes with multiple types
+message Metadata {
+  // Summary of the content and background of the dataset described in 3-
+  // 5 sentences.
+  string description = 1;
+  // Descriptive name of the dataset or ID of the dataset.
+  string dataset_id = 2;
+  // Date & time when the dataset was created.
+  string date = 3;
+  // Persons who worked on the dataset.
+  repeatedAuthor authors = 4;
+  // Research subjects covered by the dataset.
+  repeatedstring subjects = 5;
+  // Define the actual model which was investigated with the dataset.
+  optional Model model = 6;
+  // Descriptive keywords to describe the dataset.
+  repeatedstring keywords = 7;
+  // Experimental devices used in the dataset.
+  repeatedHardware devices = 8;
+  // Free flow conditions during the experiment
+  optional FreeFlow free_flow = 9;
+  // Contains all measurements & recordings which were conducted during
+  // the experiment
+  repeated Measurement measurements = 10;
+}
+
+message Author {
+  // Full name of the author or the experimenter.
+  string name = 1;
+  // Organisation to which the author belongs.
+  string affiliation = 2;
+  // E-Mail adress of the author.
+  string email = 3;
+  // Phone number of the author.
+  optional integer phone = 4;
+}
+
+message FreeFlow {
+  // Shape of the flow channel's cross section (e.g. rectangular,
+  // round, ...)
+  string shape = 1;
+  // Value of the channel's hydraulic diameter (m)
+  double hydraulic_diameter = 2;
+  // Description of the free flow parameters during the dataset.
+  FlowParameters fluid = 3;
+  // Value of the channel height, assuming a rectangular channel. (m)
+  optional double height = 4;
+  // Value of the flow channel width, assuming a rectangular channel. (m)
+  optional double width = 5;
+  // Value of the flow channel depth, assuming a rectangular channel. (m)
+  optional double depth = 6;
+  // Value of the flow channel diameter, assuming a round channel. (m)
+  optional double diameter = 7;
+}
+
+message FlowParameters {
+  // Name of the free flow fluid (e.g. dry air, water, ...)
+  string fluid = 1;
+  // Value of the fluid temperature at the inlet. (K)
+  double temperature = 2;
+  // Value of the fluid pressure at the outlet. (Pa)
+  double pressure = 3;
+  // Value of the fluid density (kg/m^3)
+  double density = 4;
+  // Value of the fluid kinematic viscosity (m^2/s)
+  double kinematic_viscosity = 5;
+  // Value of the dynamic fluid viscosity (mPas)
+  double dynamic_viscosity = 6;
+  // Value of the fluid mass flux (kg/s)
+  repeateddouble mass_flux = 7;
+  // Value(s) of investigated channel Reynolds number(s). ( - )
+  repeateddouble reynolds_number = 8;
+}
+
+message Model {
+  // What kind of object is located inside the flow channel? (porous media
+  // model, cylinder, ...)
+  string type = 1;
+  // Where is the object located inside the flow channel? (in, adjascent
+  // to, ... the free flow)
+  string location = 2;
+  // Description of porous media parameters
+  optional PorousMedia porous_media = 3;
+  // CAD drawing of the used model (e.g. stored as a '.stl'-File)
+  optional bytes cad_model = 4;
+}
+
+message PorousMedia {
+  // Definition of the porous media model topology.
+  string topology = 1;
+  // Value of the porous media model height. (m)
+  double height = 2;
+  // Value of the porous media model width. (m)
+  double width = 3;
+  // Value of the porous media model depth. (m)
+  double depth = 4;
+  // Value of the porous media model porosity. ( - )
+  double porosity = 5;
+  // Value of the porous media model permeability. (m^2)
+  optional double permeability = 6;
+  // Value of the porous media model periodicity in x-direction. (m)
+  optional double periodicity_x = 7;
+  // Value of the porous media model periodicity in y-direction. (m)
+  optional double periodicity_y = 8;
+  // Value of the porous media model wall thickness. (m)
+  optional double wall_thickness = 9;
+}
+
+message Hardware {
+  // Description of the used camera system.
+  repeatedCamera camera = 1;
+  // Description of the used laser system.
+  repeatedLaser laser = 2;
+  // Description of the used seeding device and seeding material.
+  repeatedSeeding seeding = 3;
+  // Description of the used optical devices (e.g. laserarms, lenses,
+  // beamsplitter, sheet optics, ...).
+  repeated Device optics = 4;
+  // Description of the used triggering devices.
+  repeated Triggering triggering = 5;
+}
+
+message Device {
+  // Name of the device's manufacturer.
+  string manufacturer = 1;
+  // Name of the device's model.
+  optional string model = 2;
+}
+
+message Camera {
+  // Name of the device's manufacturer.
+  string manufacturer = 1;
+  // Name of the device's model.
+  optional string model = 2;
+  // Name of the camera lens which were used.
+  optional string lens = 3;
+  // Description of the camera sensor which were used.
+  optional string sensor = 4;
+}
+
+message Laser {
+  // Name of the device's manufacturer.
+  string manufacturer = 1;
+  // Value of the used wavelength of the laser. (nm)
+  double wavelength = 2;
+  // Name of the device's model.
+  optional string model = 3;
+  // Type of the used laser (e.g. pulsed or continuous wave laser, ...)
+  optional string type = 4;
+  // Value of the laser power. (W)
+  optional double power = 5;
+}
+
+message Seeding {
+  // Name of the device's manufacturer.
+  string manufacturer = 1;
+  // Seeding parameters of the used seeding material during the experiment.
+  SeedingParameters particles = 2;
+  // Name of the device's model.
+  optional string model = 3;
+}
+
+message SeedingParameters {
+  // Name of the seeding material.
+  string material = 1;
+  // Phase of the seeding material which was used (e.g. solid,
+  // liquid, ...).
+  string phase = 2;
+  // Value of the seeding particle density. (kg/m^3)
+  double density = 3;
+  // Value or span of the seeding particle diameter. (m)
+  double particle_size = 4;
+  // Value of the seeding particle kinematic viscosity (m^2/s)
+  optional double kinematic_viscosity = 5;
+}
+
+message Triggering {
+  // Name of the device's manufacturer.
+  string manufacturer = 1;
+  // Type of recording mode during the experiment (e.g. time-based, cyclic
+  // time-based, ...).
+  string recording_mode = 2;
+  // Name of the device's model.
+  optional string model = 3;
+}
+
+message Measurement {
+  // Name of the experiment.It should contain all relevant information
+  // about the experiment.
+  string name = 1;
+  // Calibration that has been done before the actual experiment.
+  repeated Calibration calibration = 2;
+  // Recordings that have been done in the course of the experiment.
+  repeated Recording recordings = 3;
+  // Processing steps and processed video data of the experiment
+  repeated ProcessStep processing_steps = 4;
+}
+
+message Calibration {
+  // Specify the calibration plate and/or the calibration facility which
+  // was used for calibration.
+  string calibration_type = 1;
+  // Value of the scale factor of the recordings.The amount of pixels
+  // corresponding to the length of 1 mm. (px/mm)
+  double scale_factor = 2;
+  // Value of the translation of the camera position relative to the
+  // calibration plate. (m)
+  optional double camera_position_translation = 3;
+  // Value of the rotation of the camera position relative to the
+  // calibration plate. (°)
+  optional double camera_position_rotation = 4;
+  // The actual calibration image which was used.
+  optional bytes calibration_image = 5;
+}
+
+message ProcessStep {
+  // Full name of the processing step.
+  string name = 1;
+  // List of processing steps carried out with the processing software.
+  repeated string operation_list = 2;
+  // Resulting video after applying the process steps and the raw video.
+  repeated Recording processed_recording = 3;
+  // Software that has been used to perform the processing steps.
+  repeatedSoftware software = 4;
+}
+
+message Software {
+  // Name of the used recording or processing software manufacturer.
+  string manufacturer = 1;
+  // Name of the used recording or processing software.
+  string name = 2;
+  // Version of the used recording or processing software.
+  optional string version = 3;
+}
+
+message Recording {
+  // Value of the investigated time period. (s)
+  double time = 1;
+  // Value of the recording repetition rate. (Hz)
+  double repetition_rate = 2;
+  // Value of the field of view. (m x m)
+  string field_of_view = 3;
+  // Number of frames found in this video.
+  optional integer n_frames = 4;
+  // The actual Videoframes of the raw video
+  optional bytes frames = 5;
+  // Specify the local filepath to the location of the recordings.
+  optional string location = 6;
+}

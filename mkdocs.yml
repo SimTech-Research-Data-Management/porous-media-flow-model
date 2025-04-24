@@ -1,0 +1,48 @@
+repo_url: https://github.com/SimTech-Research-Data-Management/porous-media-flow-model
+site_name: Porous Media Flow Model
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  font:
+    text: Open Sans
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.path
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - toc.integrate
+    - search.suggest
+    - content.action.edit
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - "Porous Media Data Model":
+      - "Version 1.0": versions/v1.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - toc:
+      permalink: true
+plugins:
+  - search
+  - inline-svg

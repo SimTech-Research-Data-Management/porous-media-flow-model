@@ -1,0 +1,754 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://mdmodel.net/",
+  "title": "Metadata",
+  "type": "object",
+  "description": "The Metadata summarizes key information about the following dataset. It includes a description of the dataset's content, a descriptive name or ID of the dataset, and the date of creation. It also lists the contributors, highlights the research areas which are covered and specifies the specific porous media model investigated. Descriptive keywords help categorize the dataset and the the hardware used in the experiment is also stored. Free flow conditions of the turbulent air flow are also stored. The Metadata provides detailed information about the measurements conducted in the experiment.",
+  "properties": {
+    "authors": {
+      "title": "authors",
+      "type": "array",
+      "description": "Persons who worked on the dataset.",
+      "items": {
+        "$ref": "#/$defs/Author"
+      }
+    },
+    "dataset_id": {
+      "title": "dataset_id",
+      "type": "string",
+      "description": "Descriptive name of the dataset or ID of the dataset."
+    },
+    "date": {
+      "title": "date",
+      "type": "string",
+      "description": "Date & time when the dataset was created."
+    },
+    "description": {
+      "title": "description",
+      "type": "string",
+      "description": "Summary of the content and background of the dataset described in 3-5 sentences."
+    },
+    "devices": {
+      "title": "devices",
+      "type": "array",
+      "description": "Experimental devices used in the dataset.",
+      "items": {
+        "$ref": "#/$defs/Hardware"
+      }
+    },
+    "free_flow": {
+      "title": "free_flow",
+      "type": "object",
+      "description": "Free flow conditions during the experiment",
+      "$ref": "#/$defs/FreeFlow"
+    },
+    "keywords": {
+      "title": "keywords",
+      "type": "array",
+      "description": "Descriptive keywords to describe the dataset.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "measurements": {
+      "title": "measurements",
+      "type": "array",
+      "description": "Contains all measurements & recordings which were conducted during the experiment",
+      "items": {
+        "$ref": "#/$defs/Measurement"
+      }
+    },
+    "model": {
+      "title": "model",
+      "type": "object",
+      "description": "Define the actual model which was investigated with the dataset.",
+      "$ref": "#/$defs/Model"
+    },
+    "subjects": {
+      "title": "subjects",
+      "type": "array",
+      "description": "Research subjects covered by the dataset.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "Author": {
+      "title": "Author",
+      "type": "object",
+      "description": "The Author section provides information about the persons involved in working on or creating the dataset.These information helps providing the identity and contact details of the authors associated with the dataset.",
+      "properties": {
+        "affiliation": {
+          "title": "affiliation",
+          "type": "string",
+          "description": "Organisation to which the author belongs."
+        },
+        "email": {
+          "title": "email",
+          "type": "string",
+          "description": "E-Mail adress of the author."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Full name of the author or the experimenter."
+        },
+        "phone": {
+          "title": "phone",
+          "type": "integer",
+          "description": "Phone number of the author."
+        }
+      },
+      "required": [
+        "name",
+        "affiliation",
+        "email"
+      ],
+      "additionalProperties": false
+    },
+    "Calibration": {
+      "title": "Calibration",
+      "type": "object",
+      "description": "The Calibration contains information about the parameters used during the recording process.The parameters are providing insights integero the camera position relative to the experiment for correcting possible misalignments.",
+      "properties": {
+        "calibration_image": {
+          "title": "calibration_image",
+          "type": "object",
+          "description": "The actual calibration image which was used.",
+          "$ref": "#/$defs/bytes"
+        },
+        "calibration_type": {
+          "title": "calibration_type",
+          "type": "string",
+          "description": "Specify the calibration plate and/or the calibration facility which was used for calibration."
+        },
+        "camera_position_rotation": {
+          "title": "camera_position_rotation",
+          "type": "number",
+          "description": "Value of the rotation of the camera position relative to the calibration plate. (°)"
+        },
+        "camera_position_translation": {
+          "title": "camera_position_translation",
+          "type": "number",
+          "description": "Value of the translation of the camera position relative to the calibration plate. (m)"
+        },
+        "scale_factor": {
+          "title": "scale_factor",
+          "type": "number",
+          "description": "Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. (px/mm)"
+        }
+      },
+      "required": [
+        "calibration_type",
+        "scale_factor"
+      ],
+      "additionalProperties": false
+    },
+    "Camera": {
+      "title": "Camera",
+      "type": "object",
+      "description": "It specifies details about the camera lenses and sensors which were used during the experiment.",
+      "properties": {
+        "lens": {
+          "title": "lens",
+          "type": "string",
+          "description": "Name of the camera lens which were used."
+        },
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the device's manufacturer."
+        },
+        "model": {
+          "title": "model",
+          "type": "string",
+          "description": "Name of the device's model."
+        },
+        "sensor": {
+          "title": "sensor",
+          "type": "string",
+          "description": "Description of the camera sensor which were used."
+        }
+      },
+      "required": [
+        "manufacturer"
+      ],
+      "additionalProperties": false
+    },
+    "Device": {
+      "title": "Device",
+      "type": "object",
+      "description": "The Device provides general information about the manufacturer and model of the used devices such as cameras, lasers, optics, triggering and seeding systems.",
+      "properties": {
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the device's manufacturer."
+        },
+        "model": {
+          "title": "model",
+          "type": "string",
+          "description": "Name of the device's model."
+        }
+      },
+      "required": [
+        "manufacturer"
+      ],
+      "additionalProperties": false
+    },
+    "FlowParameters": {
+      "title": "FlowParameters",
+      "type": "object",
+      "description": "The Flow Parameters encompasses crucial details about the flow parameters of the working fluid used in the present dataset. These parameters provide a comprehensive understanding of the fluid's properties and flow conditions within the experiment.",
+      "properties": {
+        "density": {
+          "title": "density",
+          "type": "number",
+          "description": "Value of the fluid density (kg/m^3)"
+        },
+        "dynamic_viscosity": {
+          "title": "dynamic_viscosity",
+          "type": "number",
+          "description": "Value of the dynamic fluid viscosity (mPas)"
+        },
+        "fluid": {
+          "title": "fluid",
+          "type": "string",
+          "description": "Name of the free flow fluid (e.g. dry air, water, ...)"
+        },
+        "kinematic_viscosity": {
+          "title": "kinematic_viscosity",
+          "type": "number",
+          "description": "Value of the fluid kinematic viscosity (m^2/s)"
+        },
+        "mass_flux": {
+          "title": "mass_flux",
+          "type": "array",
+          "description": "Value of the fluid mass flux (kg/s)",
+          "items": {
+            "type": "number"
+          }
+        },
+        "pressure": {
+          "title": "pressure",
+          "type": "number",
+          "description": "Value of the fluid pressure at the outlet. (Pa)"
+        },
+        "reynolds_number": {
+          "title": "reynolds_number",
+          "type": "array",
+          "description": "Value(s) of investigated channel Reynolds number(s). ( - )",
+          "items": {
+            "type": "number"
+          }
+        },
+        "temperature": {
+          "title": "temperature",
+          "type": "number",
+          "description": "Value of the fluid temperature at the inlet. (K)"
+        }
+      },
+      "required": [
+        "fluid",
+        "temperature",
+        "pressure",
+        "density",
+        "kinematic_viscosity",
+        "dynamic_viscosity",
+        "mass_flux",
+        "reynolds_number"
+      ],
+      "additionalProperties": false
+    },
+    "FreeFlow": {
+      "title": "FreeFlow",
+      "type": "object",
+      "description": "The Free Flow section contains information about the shape, dimensions, and working fluid of the free flow channel.It provides details such as the shape of the flow channel's cross-section, the hydraulic diameter, height, width and depth of the channel and a description of the flow parameters of the working fluid.",
+      "properties": {
+        "depth": {
+          "title": "depth",
+          "type": "number",
+          "description": "Value of the flow channel depth, assuming a rectangular channel. (m)"
+        },
+        "diameter": {
+          "title": "diameter",
+          "type": "number",
+          "description": "Value of the flow channel diameter, assuming a round channel. (m)"
+        },
+        "fluid": {
+          "title": "fluid",
+          "type": "object",
+          "description": "Description of the free flow parameters during the dataset.",
+          "$ref": "#/$defs/FlowParameters"
+        },
+        "height": {
+          "title": "height",
+          "type": "number",
+          "description": "Value of the channel height, assuming a rectangular channel. (m)"
+        },
+        "hydraulic_diameter": {
+          "title": "hydraulic_diameter",
+          "type": "number",
+          "description": "Value of the channel's hydraulic diameter (m)"
+        },
+        "shape": {
+          "title": "shape",
+          "type": "string",
+          "description": "Shape of the flow channel's cross section (e.g. rectangular, round, ...)"
+        },
+        "width": {
+          "title": "width",
+          "type": "number",
+          "description": "Value of the flow channel width, assuming a rectangular channel. (m)"
+        }
+      },
+      "required": [
+        "shape",
+        "hydraulic_diameter",
+        "fluid"
+      ],
+      "additionalProperties": false
+    },
+    "Hardware": {
+      "title": "Hardware",
+      "type": "object",
+      "description": "The Hardware includes descriptions of the camera systems, laser systems, seeding devices and materials, optical devices, and triggering systems utilized during the experiment.",
+      "properties": {
+        "camera": {
+          "title": "camera",
+          "type": "array",
+          "description": "Description of the used camera system.",
+          "items": {
+            "$ref": "#/$defs/Camera"
+          }
+        },
+        "laser": {
+          "title": "laser",
+          "type": "array",
+          "description": "Description of the used laser system.",
+          "items": {
+            "$ref": "#/$defs/Laser"
+          }
+        },
+        "optics": {
+          "title": "optics",
+          "type": "array",
+          "description": "Description of the used optical devices (e.g. laserarms, lenses, beamsplitter, sheet optics, ...).",
+          "items": {
+            "$ref": "#/$defs/Device"
+          }
+        },
+        "seeding": {
+          "title": "seeding",
+          "type": "array",
+          "description": "Description of the used seeding device and seeding material.",
+          "items": {
+            "$ref": "#/$defs/Seeding"
+          }
+        },
+        "triggering": {
+          "title": "triggering",
+          "type": "array",
+          "description": "Description of the used triggering devices.",
+          "items": {
+            "$ref": "#/$defs/Triggering"
+          }
+        }
+      },
+      "required": [
+        "camera",
+        "laser",
+        "seeding"
+      ],
+      "additionalProperties": false
+    },
+    "Laser": {
+      "title": "Laser",
+      "type": "object",
+      "description": "The Laser provides information about the laser wavelength, either the laser is pulsed or continuous as well as the laser power.",
+      "properties": {
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the device's manufacturer."
+        },
+        "model": {
+          "title": "model",
+          "type": "string",
+          "description": "Name of the device's model."
+        },
+        "power": {
+          "title": "power",
+          "type": "number",
+          "description": "Value of the laser power. (W)"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "description": "Type of the used laser (e.g. pulsed or continuous wave laser, ...)"
+        },
+        "wavelength": {
+          "title": "wavelength",
+          "type": "number",
+          "description": "Value of the used wavelength of the laser. (nm)"
+        }
+      },
+      "required": [
+        "manufacturer",
+        "wavelength"
+      ],
+      "additionalProperties": false
+    },
+    "Measurement": {
+      "title": "Measurement",
+      "type": "object",
+      "description": "The Measurement encompasses key details about the conducted experiment and its calibration.",
+      "properties": {
+        "calibration": {
+          "title": "calibration",
+          "type": "array",
+          "description": "Calibration that has been done before the actual experiment.",
+          "items": {
+            "$ref": "#/$defs/Calibration"
+          }
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the experiment.It should contain all relevant information about the experiment."
+        },
+        "processing_steps": {
+          "title": "processing_steps",
+          "type": "array",
+          "description": "Processing steps and processed video data of the experiment",
+          "items": {
+            "$ref": "#/$defs/ProcessStep"
+          }
+        },
+        "recordings": {
+          "title": "recordings",
+          "type": "array",
+          "description": "Recordings that have been done in the course of the experiment.",
+          "items": {
+            "$ref": "#/$defs/Recording"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "Model": {
+      "title": "Model",
+      "type": "object",
+      "description": "The Model section contains information about the location of the object in the flow channel.It provides details regarding the type of the present porous media model, its location relative to the free flow and if applicable, detailed parameters related to the model which was used.",
+      "properties": {
+        "cad_model": {
+          "title": "cad_model",
+          "type": "object",
+          "description": "CAD drawing of the used model (e.g. stored as a '.stl'-File)",
+          "$ref": "#/$defs/bytes"
+        },
+        "location": {
+          "title": "location",
+          "type": "string",
+          "description": "Where is the object located inside the flow channel? (in, adjascent to, ... the free flow)"
+        },
+        "porous_media": {
+          "title": "porous_media",
+          "type": "object",
+          "description": "Description of porous media parameters",
+          "$ref": "#/$defs/PorousMedia"
+        },
+        "type": {
+          "title": "type",
+          "type": "string",
+          "description": "What kind of object is located inside the flow channel? (porous media model, cylinder, ...)"
+        }
+      },
+      "required": [
+        "type",
+        "location"
+      ],
+      "additionalProperties": false
+    },
+    "PorousMedia": {
+      "title": "PorousMedia",
+      "type": "object",
+      "description": "The Porous Media contains information regarding the parameters associated with the utilized porous media model.They include the topology of the porous media model, the dimensions and other relevant material properties.",
+      "properties": {
+        "depth": {
+          "title": "depth",
+          "type": "number",
+          "description": "Value of the porous media model depth. (m)"
+        },
+        "height": {
+          "title": "height",
+          "type": "number",
+          "description": "Value of the porous media model height. (m)"
+        },
+        "periodicity_x": {
+          "title": "periodicity_x",
+          "type": "number",
+          "description": "Value of the porous media model periodicity in x-direction. (m)"
+        },
+        "periodicity_y": {
+          "title": "periodicity_y",
+          "type": "number",
+          "description": "Value of the porous media model periodicity in y-direction. (m)"
+        },
+        "permeability": {
+          "title": "permeability",
+          "type": "number",
+          "description": "Value of the porous media model permeability. (m^2)"
+        },
+        "porosity": {
+          "title": "porosity",
+          "type": "number",
+          "description": "Value of the porous media model porosity. ( - )"
+        },
+        "topology": {
+          "title": "topology",
+          "type": "string",
+          "description": "Definition of the porous media model topology."
+        },
+        "wall_thickness": {
+          "title": "wall_thickness",
+          "type": "number",
+          "description": "Value of the porous media model wall thickness. (m)"
+        },
+        "width": {
+          "title": "width",
+          "type": "number",
+          "description": "Value of the porous media model width. (m)"
+        }
+      },
+      "required": [
+        "topology",
+        "height",
+        "width",
+        "depth",
+        "porosity"
+      ],
+      "additionalProperties": false
+    },
+    "ProcessStep": {
+      "title": "ProcessStep",
+      "type": "object",
+      "description": "The Process Step outlines the specific processing steps applied to the flow measurement video data.It includes the name of each processing step, the resulting video from the processing, and the software used to post-process the data.Additionally, files with the extension \".lvs\" from the Davis 10 software can be embedded within this section, providing a comprehensive record of the processing workflow and ensuring the availability of relevant files for reference and replication.",
+      "properties": {
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Full name of the processing step."
+        },
+        "operation_list": {
+          "title": "operation_list",
+          "type": "array",
+          "description": "List of processing steps carried out with the processing software.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "processed_recording": {
+          "title": "processed_recording",
+          "type": "array",
+          "description": "Resulting video after applying the process steps and the raw video.",
+          "items": {
+            "$ref": "#/$defs/Recording"
+          }
+        },
+        "software": {
+          "title": "software",
+          "type": "array",
+          "description": "Software that has been used to perform the processing steps.",
+          "items": {
+            "$ref": "#/$defs/Software"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "software"
+      ],
+      "additionalProperties": false
+    },
+    "Recording": {
+      "title": "Recording",
+      "type": "object",
+      "description": "The Recording contains crucial information about the parameters used during the recording process.These parameters offer valuable insights integero the experimental setup, facilitating accurate analysis and integererpretation of the recorded data. The inclusion of the video frames allows for a visual reference and further examination of the recorded footage.",
+      "properties": {
+        "field_of_view": {
+          "title": "field_of_view",
+          "type": "string",
+          "description": "Value of the field of view. (m x m)"
+        },
+        "frames": {
+          "title": "frames",
+          "type": "object",
+          "description": "The actual Videoframes of the raw video",
+          "$ref": "#/$defs/bytes"
+        },
+        "location": {
+          "title": "location",
+          "type": "string",
+          "description": "Specify the local filepath to the location of the recordings."
+        },
+        "n_frames": {
+          "title": "n_frames",
+          "type": "integer",
+          "description": "Number of frames found in this video."
+        },
+        "repetition_rate": {
+          "title": "repetition_rate",
+          "type": "number",
+          "description": "Value of the recording repetition rate. (Hz)"
+        },
+        "time": {
+          "title": "time",
+          "type": "number",
+          "description": "Value of the investigated time period. (s)"
+        }
+      },
+      "required": [
+        "time",
+        "repetition_rate",
+        "field_of_view"
+      ],
+      "additionalProperties": false
+    },
+    "Seeding": {
+      "title": "Seeding",
+      "type": "object",
+      "description": "The Seeding describes the material of the seeding particles, the type of them as well as their density, particle size, and kinematic viscosity.",
+      "properties": {
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the device's manufacturer."
+        },
+        "model": {
+          "title": "model",
+          "type": "string",
+          "description": "Name of the device's model."
+        },
+        "particles": {
+          "title": "particles",
+          "type": "object",
+          "description": "Seeding parameters of the used seeding material during the experiment.",
+          "$ref": "#/$defs/SeedingParameters"
+        }
+      },
+      "required": [
+        "manufacturer",
+        "particles"
+      ],
+      "additionalProperties": false
+    },
+    "SeedingParameters": {
+      "title": "SeedingParameters",
+      "type": "object",
+      "description": "The Seeding Parameters contains crucial information about the seeding material used in the experiment.It includes details such as the material name, particle type, density, particle size and the kinematic viscosity of the seeding particles.These parameters provide valuable insights integero the characteristics of the seeding material and its influence on the fluid flow behavior within the experimental setup.",
+      "properties": {
+        "density": {
+          "title": "density",
+          "type": "number",
+          "description": "Value of the seeding particle density. (kg/m^3)"
+        },
+        "kinematic_viscosity": {
+          "title": "kinematic_viscosity",
+          "type": "number",
+          "description": "Value of the seeding particle kinematic viscosity (m^2/s)"
+        },
+        "material": {
+          "title": "material",
+          "type": "string",
+          "description": "Name of the seeding material."
+        },
+        "particle_size": {
+          "title": "particle_size",
+          "type": "number",
+          "description": "Value or span of the seeding particle diameter. (m)"
+        },
+        "phase": {
+          "title": "phase",
+          "type": "string",
+          "description": "Phase of the seeding material which was used (e.g. solid, liquid, ...)."
+        }
+      },
+      "required": [
+        "material",
+        "phase",
+        "density",
+        "particle_size"
+      ],
+      "additionalProperties": false
+    },
+    "Software": {
+      "title": "Software",
+      "type": "object",
+      "description": "The Software section serves as a container for general information about the software utilized in the experiment.It includes details such as the name of the manufacturer, the specific software name, and the version used to generate the dataset.These details provide important context for the experiment, allowing for reproducibility and facilitating a clear understanding of the software environment in which the data analysis and processing were performed.",
+      "properties": {
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the used recording or processing software manufacturer."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the used recording or processing software."
+        },
+        "version": {
+          "title": "version",
+          "type": "string",
+          "description": "Version of the used recording or processing software."
+        }
+      },
+      "required": [
+        "manufacturer",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "Triggering": {
+      "title": "Triggering",
+      "type": "object",
+      "description": "The Triggering explains the recording mode employed during the experiment.",
+      "properties": {
+        "manufacturer": {
+          "title": "manufacturer",
+          "type": "string",
+          "description": "Name of the device's manufacturer."
+        },
+        "model": {
+          "title": "model",
+          "type": "string",
+          "description": "Name of the device's model."
+        },
+        "recording_mode": {
+          "title": "recording_mode",
+          "type": "string",
+          "description": "Type of recording mode during the experiment (e.g. time-based, cyclic time-based, ...)."
+        }
+      },
+      "required": [
+        "manufacturer",
+        "recording_mode"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "description",
+    "dataset_id",
+    "date",
+    "authors",
+    "subjects",
+    "keywords",
+    "devices"
+  ],
+  "additionalProperties": false
+}

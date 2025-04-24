@@ -1,0 +1,282 @@
+# This file contains GraphQL type definitions.
+#
+# WARNING: This is an auto-generated file.
+# Do not edit directly - any changes will be overwritten.
+
+
+# Scalar wrapper types
+
+# Union type definitions
+
+# PorousMedia Type definitions
+type Metadata {
+  description: String!
+  dataset_id: String!
+  date: String!
+  authors: [Author]!
+  subjects: [String]!
+  model: Model
+  keywords: [String]!
+  devices: [Hardware]!
+  free_flow: FreeFlow
+  measurements: [Measurement]
+}
+
+type Author {
+  name: String!
+  affiliation: String!
+  email: String!
+  phone: Int
+}
+
+type FreeFlow {
+  shape: String!
+  hydraulic_diameter: Float!
+  fluid: FlowParameters!
+  height: Float
+  width: Float
+  depth: Float
+  diameter: Float
+}
+
+type FlowParameters {
+  fluid: String!
+  temperature: Float!
+  pressure: Float!
+  density: Float!
+  kinematic_viscosity: Float!
+  dynamic_viscosity: Float!
+  mass_flux: [Float]!
+  reynolds_number: [Float]!
+}
+
+type Model {
+  type: String!
+  location: String!
+  porous_media: PorousMedia
+  cad_model: String
+}
+
+type PorousMedia {
+  topology: String!
+  height: Float!
+  width: Float!
+  depth: Float!
+  porosity: Float!
+  permeability: Float
+  periodicity_x: Float
+  periodicity_y: Float
+  wall_thickness: Float
+}
+
+type Hardware {
+  camera: [Camera]!
+  laser: [Laser]!
+  seeding: [Seeding]!
+  optics: [Device]
+  triggering: [Triggering]
+}
+
+type Device {
+  manufacturer: String!
+  model: String
+}
+
+type Camera {
+  manufacturer: String!
+  model: String
+  lens: String
+  sensor: String
+}
+
+type Laser {
+  manufacturer: String!
+  wavelength: Float!
+  model: String
+  type: String
+  power: Float
+}
+
+type Seeding {
+  manufacturer: String!
+  particles: SeedingParameters!
+  model: String
+}
+
+type SeedingParameters {
+  material: String!
+  phase: String!
+  density: Float!
+  particle_size: Float!
+  kinematic_viscosity: Float
+}
+
+type Triggering {
+  manufacturer: String!
+  recording_mode: String!
+  model: String
+}
+
+type Measurement {
+  name: String!
+  calibration: [Calibration]
+  recordings: [Recording]
+  processing_steps: [ProcessStep]
+}
+
+type Calibration {
+  calibration_type: String!
+  scale_factor: Float!
+  camera_position_translation: Float
+  camera_position_rotation: Float
+  calibration_image: String
+}
+
+type ProcessStep {
+  name: String!
+  operation_list: [String]
+  processed_recording: [Recording]
+  software: [Software]!
+}
+
+type Software {
+  manufacturer: String!
+  name: String!
+  version: String
+}
+
+type Recording {
+  time: Float!
+  repetition_rate: Float!
+  field_of_view: String!
+  n_frames: Int
+  frames: String
+  location: String
+}
+
+
+# Query type definitions
+type Query {
+
+  # Metadata queries
+  allMetadatas: [Metadata]
+  metadataByDescription(description: String): [Metadata]
+  metadataByDatasetId(dataset_id: String): [Metadata]
+  metadataByDate(date: String): [Metadata]
+
+  # Author queries
+  allAuthors: [Author]
+  authorByName(name: String): [Author]
+  authorByAffiliation(affiliation: String): [Author]
+  authorByEmail(email: String): [Author]
+  authorByPhone(phone: Int): [Author]
+
+  # FreeFlow queries
+  allFreeFlows: [FreeFlow]
+  freeflowByShape(shape: String): [FreeFlow]
+  freeflowByHydraulicDiameter(hydraulic_diameter: Float): [FreeFlow]
+  freeflowByHeight(height: Float): [FreeFlow]
+  freeflowByWidth(width: Float): [FreeFlow]
+  freeflowByDepth(depth: Float): [FreeFlow]
+  freeflowByDiameter(diameter: Float): [FreeFlow]
+
+  # FlowParameters queries
+  allFlowParameterss: [FlowParameters]
+  flowparametersByFluid(fluid: String): [FlowParameters]
+  flowparametersByTemperature(temperature: Float): [FlowParameters]
+  flowparametersByPressure(pressure: Float): [FlowParameters]
+  flowparametersByDensity(density: Float): [FlowParameters]
+  flowparametersByKinematicViscosity(kinematic_viscosity: Float): [FlowParameters]
+  flowparametersByDynamicViscosity(dynamic_viscosity: Float): [FlowParameters]
+
+  # Model queries
+  allModels: [Model]
+  modelByType(type: String): [Model]
+  modelByLocation(location: String): [Model]
+  modelByCadModel(cad_model: String): [Model]
+
+  # PorousMedia queries
+  allPorousMedias: [PorousMedia]
+  porousmediaByTopology(topology: String): [PorousMedia]
+  porousmediaByHeight(height: Float): [PorousMedia]
+  porousmediaByWidth(width: Float): [PorousMedia]
+  porousmediaByDepth(depth: Float): [PorousMedia]
+  porousmediaByPorosity(porosity: Float): [PorousMedia]
+  porousmediaByPermeability(permeability: Float): [PorousMedia]
+  porousmediaByPeriodicityX(periodicity_x: Float): [PorousMedia]
+  porousmediaByPeriodicityY(periodicity_y: Float): [PorousMedia]
+  porousmediaByWallThickness(wall_thickness: Float): [PorousMedia]
+
+  # Hardware queries
+  allHardwares: [Hardware]
+
+  # Device queries
+  allDevices: [Device]
+  deviceByManufacturer(manufacturer: String): [Device]
+  deviceByModel(model: String): [Device]
+
+  # Camera queries
+  allCameras: [Camera]
+  cameraByManufacturer(manufacturer: String): [Camera]
+  cameraByModel(model: String): [Camera]
+  cameraByLens(lens: String): [Camera]
+  cameraBySensor(sensor: String): [Camera]
+
+  # Laser queries
+  allLasers: [Laser]
+  laserByManufacturer(manufacturer: String): [Laser]
+  laserByWavelength(wavelength: Float): [Laser]
+  laserByModel(model: String): [Laser]
+  laserByType(type: String): [Laser]
+  laserByPower(power: Float): [Laser]
+
+  # Seeding queries
+  allSeedings: [Seeding]
+  seedingByManufacturer(manufacturer: String): [Seeding]
+  seedingByModel(model: String): [Seeding]
+
+  # SeedingParameters queries
+  allSeedingParameterss: [SeedingParameters]
+  seedingparametersByMaterial(material: String): [SeedingParameters]
+  seedingparametersByPhase(phase: String): [SeedingParameters]
+  seedingparametersByDensity(density: Float): [SeedingParameters]
+  seedingparametersByParticleSize(particle_size: Float): [SeedingParameters]
+  seedingparametersByKinematicViscosity(kinematic_viscosity: Float): [SeedingParameters]
+
+  # Triggering queries
+  allTriggerings: [Triggering]
+  triggeringByManufacturer(manufacturer: String): [Triggering]
+  triggeringByRecordingMode(recording_mode: String): [Triggering]
+  triggeringByModel(model: String): [Triggering]
+
+  # Measurement queries
+  allMeasurements: [Measurement]
+  measurementByName(name: String): [Measurement]
+
+  # Calibration queries
+  allCalibrations: [Calibration]
+  calibrationByCalibrationType(calibration_type: String): [Calibration]
+  calibrationByScaleFactor(scale_factor: Float): [Calibration]
+  calibrationByCameraPositionTranslation(camera_position_translation: Float): [Calibration]
+  calibrationByCameraPositionRotation(camera_position_rotation: Float): [Calibration]
+  calibrationByCalibrationImage(calibration_image: String): [Calibration]
+
+  # ProcessStep queries
+  allProcessSteps: [ProcessStep]
+  processstepByName(name: String): [ProcessStep]
+
+  # Software queries
+  allSoftwares: [Software]
+  softwareByManufacturer(manufacturer: String): [Software]
+  softwareByName(name: String): [Software]
+  softwareByVersion(version: String): [Software]
+
+  # Recording queries
+  allRecordings: [Recording]
+  recordingByTime(time: Float): [Recording]
+  recordingByRepetitionRate(repetition_rate: Float): [Recording]
+  recordingByFieldOfView(field_of_view: String): [Recording]
+  recordingByNFrames(n_frames: Int): [Recording]
+  recordingByFrames(frames: String): [Recording]
+  recordingByLocation(location: String): [Recording]
+}

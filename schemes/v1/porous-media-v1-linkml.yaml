@@ -1,0 +1,369 @@
+id: md
+name: PorousMedia
+title: PorousMedia
+default_prefix: md
+default_range: string
+imports:
+- linkml:types
+classes:
+  Metadata:
+    description: The Metadata summarizes key information about the following dataset. It includes a description of the dataset's content, a descriptive name or ID of the dataset, and the date of creation. It also lists the contributors, highlights the research areas which are covered and specifies the specific porous media model investigated. Descriptive keywords help categorize the dataset and the the hardware used in the experiment is also stored. Free flow conditions of the turbulent air flow are also stored. The Metadata provides detailed information about the measurements conducted in the experiment.
+    tree_root: true
+    attributes:
+      description:
+        description: Summary of the content and background of the dataset described in 3-5 sentences.
+        required: true
+      dataset_id:
+        description: Descriptive name of the dataset or ID of the dataset.
+        required: true
+      date:
+        description: Date & time when the dataset was created.
+        required: true
+      authors:
+        description: Persons who worked on the dataset.
+        required: true
+        range: Author
+        multivalued: true
+      subjects:
+        description: Research subjects covered by the dataset.
+        required: true
+        multivalued: true
+      model:
+        description: Define the actual model which was investigated with the dataset.
+        range: Model
+      keywords:
+        description: Descriptive keywords to describe the dataset.
+        required: true
+        multivalued: true
+      devices:
+        description: Experimental devices used in the dataset.
+        required: true
+        range: Hardware
+        multivalued: true
+      free_flow:
+        description: Free flow conditions during the experiment
+        range: FreeFlow
+      measurements:
+        description: Contains all measurements & recordings which were conducted during the experiment
+        range: Measurement
+        multivalued: true
+  Author:
+    description: The Author section provides information about the persons involved in working on or creating the dataset.These information helps providing the identity and contact details of the authors associated with the dataset.
+    attributes:
+      name:
+        description: Full name of the author or the experimenter.
+        required: true
+      affiliation:
+        description: Organisation to which the author belongs.
+        required: true
+      email:
+        description: E-Mail adress of the author.
+        required: true
+      phone:
+        description: Phone number of the author.
+        range: integer
+  FreeFlow:
+    description: The Free Flow section contains information about the shape, dimensions, and working fluid of the free flow channel.It provides details such as the shape of the flow channel's cross-section, the hydraulic diameter, height, width and depth of the channel and a description of the flow parameters of the working fluid.
+    attributes:
+      shape:
+        description: Shape of the flow channel's cross section (e.g. rectangular, round, ...)
+        required: true
+      hydraulic_diameter:
+        description: Value of the channel's hydraulic diameter (m)
+        required: true
+        range: float
+      fluid:
+        description: Description of the free flow parameters during the dataset.
+        required: true
+        range: FlowParameters
+      height:
+        description: Value of the channel height, assuming a rectangular channel. (m)
+        range: float
+      width:
+        description: Value of the flow channel width, assuming a rectangular channel. (m)
+        range: float
+      depth:
+        description: Value of the flow channel depth, assuming a rectangular channel. (m)
+        range: float
+      diameter:
+        description: Value of the flow channel diameter, assuming a round channel. (m)
+        range: float
+  FlowParameters:
+    description: The Flow Parameters encompasses crucial details about the flow parameters of the working fluid used in the present dataset. These parameters provide a comprehensive understanding of the fluid's properties and flow conditions within the experiment.
+    attributes:
+      fluid:
+        description: Name of the free flow fluid (e.g. dry air, water, ...)
+        required: true
+      temperature:
+        description: Value of the fluid temperature at the inlet. (K)
+        required: true
+        range: float
+      pressure:
+        description: Value of the fluid pressure at the outlet. (Pa)
+        required: true
+        range: float
+      density:
+        description: Value of the fluid density (kg/m^3)
+        required: true
+        range: float
+      kinematic_viscosity:
+        description: Value of the fluid kinematic viscosity (m^2/s)
+        required: true
+        range: float
+      dynamic_viscosity:
+        description: Value of the dynamic fluid viscosity (mPas)
+        required: true
+        range: float
+      mass_flux:
+        description: Value of the fluid mass flux (kg/s)
+        required: true
+        range: float
+        multivalued: true
+      reynolds_number:
+        description: Value(s) of investigated channel Reynolds number(s). ( - )
+        required: true
+        range: float
+        multivalued: true
+  Model:
+    description: The Model section contains information about the location of the object in the flow channel.It provides details regarding the type of the present porous media model, its location relative to the free flow and if applicable, detailed parameters related to the model which was used.
+    attributes:
+      type:
+        description: What kind of object is located inside the flow channel? (porous media model, cylinder, ...)
+        required: true
+      location:
+        description: Where is the object located inside the flow channel? (in, adjascent to, ... the free flow)
+        required: true
+      porous_media:
+        description: Description of porous media parameters
+        range: PorousMedia
+      cad_model:
+        description: CAD drawing of the used model (e.g. stored as a '.stl'-File)
+        range: bytes
+  PorousMedia:
+    description: The Porous Media contains information regarding the parameters associated with the utilized porous media model.They include the topology of the porous media model, the dimensions and other relevant material properties.
+    attributes:
+      topology:
+        description: Definition of the porous media model topology.
+        required: true
+      height:
+        description: Value of the porous media model height. (m)
+        required: true
+        range: float
+      width:
+        description: Value of the porous media model width. (m)
+        required: true
+        range: float
+      depth:
+        description: Value of the porous media model depth. (m)
+        required: true
+        range: float
+      porosity:
+        description: Value of the porous media model porosity. ( - )
+        required: true
+        range: float
+      permeability:
+        description: Value of the porous media model permeability. (m^2)
+        range: float
+      periodicity_x:
+        description: Value of the porous media model periodicity in x-direction. (m)
+        range: float
+      periodicity_y:
+        description: Value of the porous media model periodicity in y-direction. (m)
+        range: float
+      wall_thickness:
+        description: Value of the porous media model wall thickness. (m)
+        range: float
+  Hardware:
+    description: The Hardware includes descriptions of the camera systems, laser systems, seeding devices and materials, optical devices, and triggering systems utilized during the experiment.
+    attributes:
+      camera:
+        description: Description of the used camera system.
+        required: true
+        range: Camera
+        multivalued: true
+      laser:
+        description: Description of the used laser system.
+        required: true
+        range: Laser
+        multivalued: true
+      seeding:
+        description: Description of the used seeding device and seeding material.
+        required: true
+        range: Seeding
+        multivalued: true
+      optics:
+        description: Description of the used optical devices (e.g. laserarms, lenses, beamsplitter, sheet optics, ...).
+        range: Device
+        multivalued: true
+      triggering:
+        description: Description of the used triggering devices.
+        range: Triggering
+        multivalued: true
+  Device:
+    description: The Device provides general information about the manufacturer and model of the used devices such as cameras, lasers, optics, triggering and seeding systems.
+    attributes:
+      manufacturer:
+        description: Name of the device's manufacturer.
+        required: true
+      model:
+        description: Name of the device's model.
+  Camera:
+    description: It specifies details about the camera lenses and sensors which were used during the experiment.
+    attributes:
+      manufacturer:
+        description: Name of the device's manufacturer.
+        required: true
+      model:
+        description: Name of the device's model.
+      lens:
+        description: Name of the camera lens which were used.
+      sensor:
+        description: Description of the camera sensor which were used.
+  Laser:
+    description: The Laser provides information about the laser wavelength, either the laser is pulsed or continuous as well as the laser power.
+    attributes:
+      manufacturer:
+        description: Name of the device's manufacturer.
+        required: true
+      wavelength:
+        description: Value of the used wavelength of the laser. (nm)
+        required: true
+        range: float
+      model:
+        description: Name of the device's model.
+      type:
+        description: Type of the used laser (e.g. pulsed or continuous wave laser, ...)
+      power:
+        description: Value of the laser power. (W)
+        range: float
+  Seeding:
+    description: The Seeding describes the material of the seeding particles, the type of them as well as their density, particle size, and kinematic viscosity.
+    attributes:
+      manufacturer:
+        description: Name of the device's manufacturer.
+        required: true
+      particles:
+        description: Seeding parameters of the used seeding material during the experiment.
+        required: true
+        range: SeedingParameters
+      model:
+        description: Name of the device's model.
+  SeedingParameters:
+    description: The Seeding Parameters contains crucial information about the seeding material used in the experiment.It includes details such as the material name, particle type, density, particle size and the kinematic viscosity of the seeding particles.These parameters provide valuable insights integero the characteristics of the seeding material and its influence on the fluid flow behavior within the experimental setup.
+    attributes:
+      material:
+        description: Name of the seeding material.
+        required: true
+      phase:
+        description: Phase of the seeding material which was used (e.g. solid, liquid, ...).
+        required: true
+      density:
+        description: Value of the seeding particle density. (kg/m^3)
+        required: true
+        range: float
+      particle_size:
+        description: Value or span of the seeding particle diameter. (m)
+        required: true
+        range: float
+      kinematic_viscosity:
+        description: Value of the seeding particle kinematic viscosity (m^2/s)
+        range: float
+  Triggering:
+    description: The Triggering explains the recording mode employed during the experiment.
+    attributes:
+      manufacturer:
+        description: Name of the device's manufacturer.
+        required: true
+      recording_mode:
+        description: Type of recording mode during the experiment (e.g. time-based, cyclic time-based, ...).
+        required: true
+      model:
+        description: Name of the device's model.
+  Measurement:
+    description: The Measurement encompasses key details about the conducted experiment and its calibration.
+    attributes:
+      name:
+        description: Name of the experiment.It should contain all relevant information about the experiment.
+        required: true
+      calibration:
+        description: Calibration that has been done before the actual experiment.
+        range: Calibration
+        multivalued: true
+      recordings:
+        description: Recordings that have been done in the course of the experiment.
+        range: Recording
+        multivalued: true
+      processing_steps:
+        description: Processing steps and processed video data of the experiment
+        range: ProcessStep
+        multivalued: true
+  Calibration:
+    description: The Calibration contains information about the parameters used during the recording process.The parameters are providing insights integero the camera position relative to the experiment for correcting possible misalignments.
+    attributes:
+      calibration_type:
+        description: Specify the calibration plate and/or the calibration facility which was used for calibration.
+        required: true
+      scale_factor:
+        description: Value of the scale factor of the recordings.The amount of pixels corresponding to the length of 1 mm. (px/mm)
+        required: true
+        range: float
+      camera_position_translation:
+        description: Value of the translation of the camera position relative to the calibration plate. (m)
+        range: float
+      camera_position_rotation:
+        description: Value of the rotation of the camera position relative to the calibration plate. (°)
+        range: float
+      calibration_image:
+        description: The actual calibration image which was used.
+        range: bytes
+  ProcessStep:
+    description: The Process Step outlines the specific processing steps applied to the flow measurement video data.It includes the name of each processing step, the resulting video from the processing, and the software used to post-process the data.Additionally, files with the extension ".lvs" from the Davis 10 software can be embedded within this section, providing a comprehensive record of the processing workflow and ensuring the availability of relevant files for reference and replication.
+    attributes:
+      name:
+        description: Full name of the processing step.
+        required: true
+      operation_list:
+        description: List of processing steps carried out with the processing software.
+        multivalued: true
+      processed_recording:
+        description: Resulting video after applying the process steps and the raw video.
+        range: Recording
+        multivalued: true
+      software:
+        description: Software that has been used to perform the processing steps.
+        required: true
+        range: Software
+        multivalued: true
+  Software:
+    description: The Software section serves as a container for general information about the software utilized in the experiment.It includes details such as the name of the manufacturer, the specific software name, and the version used to generate the dataset.These details provide important context for the experiment, allowing for reproducibility and facilitating a clear understanding of the software environment in which the data analysis and processing were performed.
+    attributes:
+      manufacturer:
+        description: Name of the used recording or processing software manufacturer.
+        required: true
+      name:
+        description: Name of the used recording or processing software.
+        required: true
+      version:
+        description: Version of the used recording or processing software.
+  Recording:
+    description: The Recording contains crucial information about the parameters used during the recording process.These parameters offer valuable insights integero the experimental setup, facilitating accurate analysis and integererpretation of the recorded data. The inclusion of the video frames allows for a visual reference and further examination of the recorded footage.
+    attributes:
+      time:
+        description: Value of the investigated time period. (s)
+        required: true
+        range: float
+      repetition_rate:
+        description: Value of the recording repetition rate. (Hz)
+        required: true
+        range: float
+      field_of_view:
+        description: Value of the field of view. (m x m)
+        required: true
+      n_frames:
+        description: Number of frames found in this video.
+        range: integer
+      frames:
+        description: The actual Videoframes of the raw video
+        range: bytes
+      location:
+        description: Specify the local filepath to the location of the recordings.
