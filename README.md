@@ -34,6 +34,11 @@ The framework is implemented in multiple languages to support different use case
   - Data streaming
   - Concurrent processing
 
+- **porous-media-rs**: 🦀 Rust implementation
+  - High-performance components
+  - Data streaming
+  - Concurrent processing
+
 ## 📋 Data Model
 
 The framework implements a standardized data storage format for PIV recordings with high spatiotemporal resolution. Key components include:
