@@ -1,96 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!-- Roots -->
-    <xs:element name="Metadata" type="MetadataType" />
-    <xs:element name="Author" type="AuthorType" />
-    <xs:element name="FreeFlow" type="FreeFlowType" />
-    <xs:element name="FlowParameters" type="FlowParametersType" />
-    <xs:element name="Model" type="ModelType" />
-    <xs:element name="PorousMedia" type="PorousMediaType" />
-    <xs:element name="Hardware" type="HardwareType" />
-    <xs:element name="Device" type="DeviceType" />
-    <xs:element name="Camera" type="CameraType" />
-    <xs:element name="Laser" type="LaserType" />
-    <xs:element name="Seeding" type="SeedingType" />
-    <xs:element name="SeedingParameters" type="SeedingParametersType" />
-    <xs:element name="Triggering" type="TriggeringType" />
-    <xs:element name="Measurement" type="MeasurementType" />
-    <xs:element name="Calibration" type="CalibrationType" />
-    <xs:element name="ProcessStep" type="ProcessStepType" />
-    <xs:element name="Software" type="SoftwareType" />
-    <xs:element name="Recording" type="RecordingType" />
+    <xs:element name="Metadata" type="MetadataType"/>
+    <xs:element name="Author" type="AuthorType"/>
+    <xs:element name="FreeFlow" type="FreeFlowType"/>
+    <xs:element name="FlowParameters" type="FlowParametersType"/>
+    <xs:element name="Model" type="ModelType"/>
+    <xs:element name="PorousMedia" type="PorousMediaType"/>
+    <xs:element name="Hardware" type="HardwareType"/>
+    <xs:element name="Device" type="DeviceType"/>
+    <xs:element name="Camera" type="CameraType"/>
+    <xs:element name="Laser" type="LaserType"/>
+    <xs:element name="Seeding" type="SeedingType"/>
+    <xs:element name="SeedingParameters" type="SeedingParametersType"/>
+    <xs:element name="Triggering" type="TriggeringType"/>
+    <xs:element name="Measurement" type="MeasurementType"/>
+    <xs:element name="Calibration" type="CalibrationType"/>
+    <xs:element name="ProcessStep" type="ProcessStepType"/>
+    <xs:element name="Operation" type="OperationType"/>
+    <xs:element name="Parameter" type="ParameterType"/>
+    <xs:element name="Software" type="SoftwareType"/>
+    <xs:element name="Recording" type="RecordingType"/>
 
     <!-- Metadata Definition -->
     <xs:complexType name="MetadataType">
         <xs:sequence>
             <xs:element name="description" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Summary of the content and background of the dataset
-                        described in 3- 5 sentences. </xs:documentation>
+                    <xs:documentation>
+                        Summary of the content and background of the dataset described in 3-
+                        5 sentences.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="dataset_id" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Descriptive name of the dataset or ID of the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Descriptive name of the dataset or ID of the dataset.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="date" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Date and time when the dataset was created. </xs:documentation>
+                    <xs:documentation>
+                        Date & time when the dataset was created.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="authors">
                 <xs:annotation>
-                    <xs:documentation> Persons who worked on the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Persons who worked on the dataset.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Author" type="AuthorType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Author" type="AuthorType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="subjects" type="xs:string" maxOccurs="unbounded" minOccurs="1">
+            <xs:element name="subjects" type="xs:string"  maxOccurs="unbounded" minOccurs="1">
                 <xs:annotation>
-                    <xs:documentation> Research subjects covered by the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Research subjects covered by the dataset.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="ModelType">
                 <xs:annotation>
-                    <xs:documentation> Define the actual model which was investigated with the
-                        dataset. </xs:documentation>
+                    <xs:documentation>
+                        Define the actual model which was investigated with the dataset.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="keywords" type="xs:string" maxOccurs="unbounded" minOccurs="1">
+            <xs:element name="keywords" type="xs:string"  maxOccurs="unbounded" minOccurs="1">
                 <xs:annotation>
-                    <xs:documentation> Descriptive keywords to describe the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Descriptive keywords to describe the dataset.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="devices">
                 <xs:annotation>
-                    <xs:documentation> Experimental devices used in the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Experimental devices used in the dataset.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Hardware" type="HardwareType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Hardware" type="HardwareType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="free_flow" type="FreeFlowType">
                 <xs:annotation>
-                    <xs:documentation> Free flow conditions during the experiment </xs:documentation>
+                    <xs:documentation>
+                        Free flow conditions during the experiment
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="measurements">
                 <xs:annotation>
-                    <xs:documentation> Contains all measurements and recordings which were conducted
-                        during the experiment </xs:documentation>
+                    <xs:documentation>
+                        Contains all measurements & recordings which were conducted during
+                        the experiment
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Measurement" type="MeasurementType" maxOccurs="unbounded" />
+                        <xs:element name="Measurement" type="MeasurementType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -102,22 +121,30 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Full name of the author or the experimenter. </xs:documentation>
+                    <xs:documentation>
+                        Full name of the author or the experimenter.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="affiliation" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Organisation to which the author belongs. </xs:documentation>
+                    <xs:documentation>
+                        Organisation to which the author belongs.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="email" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> E-Mail adress of the author. </xs:documentation>
+                    <xs:documentation>
+                        E-Mail adress of the author.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="phone" type="xs:integer">
                 <xs:annotation>
-                    <xs:documentation> Phone number of the author. </xs:documentation>
+                    <xs:documentation>
+                        Phone number of the author.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -128,42 +155,52 @@
         <xs:sequence>
             <xs:element name="shape" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Shape of the flow channel's cross section (e.g. rectangular,
-                        round, ...) </xs:documentation>
+                    <xs:documentation>
+                        Shape of the flow channel's cross section (e.g. rectangular,
+                        round, ...)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="hydraulic_diameter" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the channel's hydraulic diameter (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the channel's hydraulic diameter (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="fluid" type="FlowParametersType">
                 <xs:annotation>
-                    <xs:documentation> Description of the free flow parameters during the dataset. </xs:documentation>
+                    <xs:documentation>
+                        Description of the free flow parameters during the dataset.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="height" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the channel height, assuming a rectangular channel.
-                        (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the channel height, assuming a rectangular channel. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="width" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the flow channel width, assuming a rectangular
-                        channel. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the flow channel width, assuming a rectangular channel. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="depth" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the flow channel depth, assuming a rectangular
-                        channel. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the flow channel depth, assuming a rectangular channel. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="diameter" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the flow channel diameter, assuming a round channel.
-                        (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the flow channel diameter, assuming a round channel. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -174,42 +211,58 @@
         <xs:sequence>
             <xs:element name="fluid" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the free flow fluid (e.g. dry air, water, ...) </xs:documentation>
+                    <xs:documentation>
+                        Name of the free flow fluid (e.g. dry air, water, ...)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="temperature" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the fluid temperature at the inlet. (K) </xs:documentation>
+                    <xs:documentation>
+                        Value of the fluid temperature at the inlet. (K)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="pressure" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the fluid pressure at the outlet. (Pa) </xs:documentation>
+                    <xs:documentation>
+                        Value of the fluid pressure at the outlet. (Pa)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="density" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the fluid density (kg/m^3) </xs:documentation>
+                    <xs:documentation>
+                        Value of the fluid density (kg/m^3)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="kinematic_viscosity" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the fluid kinematic viscosity (m^2/s) </xs:documentation>
+                    <xs:documentation>
+                        Value of the fluid kinematic viscosity (m^2/s)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="dynamic_viscosity" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the dynamic fluid viscosity (mPas) </xs:documentation>
+                    <xs:documentation>
+                        Value of the dynamic fluid viscosity (mPas)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="mass_flux" type="xs:float" maxOccurs="unbounded" minOccurs="1">
+            <xs:element name="mass_flux" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
                 <xs:annotation>
-                    <xs:documentation> Value of the fluid mass flux (kg/s) </xs:documentation>
+                    <xs:documentation>
+                        Value of the fluid mass flux (kg/s)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="reynolds_number" type="xs:float" maxOccurs="unbounded" minOccurs="1">
+            <xs:element name="reynolds_number" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
                 <xs:annotation>
-                    <xs:documentation> Value(s) of investigated channel Reynolds number(s). ( - ) </xs:documentation>
+                    <xs:documentation>
+                        Value(s) of investigated channel Reynolds number(s). ( - )
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -220,24 +273,32 @@
         <xs:sequence>
             <xs:element name="type" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> What kind of object is located inside the flow channel?
-                        (porous media model, cylinder, ...) </xs:documentation>
+                    <xs:documentation>
+                        What kind of object is located inside the flow channel? (porous media
+                        model, cylinder, ...)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="location" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Where is the object located inside the flow channel? (in,
-                        adjascent to, ... the free flow) </xs:documentation>
+                    <xs:documentation>
+                        Where is the object located inside the flow channel? (in, adjascent
+                        to, ... the free flow)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="porous_media" type="PorousMediaType">
                 <xs:annotation>
-                    <xs:documentation> Description of porous media parameters </xs:documentation>
+                    <xs:documentation>
+                        Description of porous media parameters
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="cad_model" type="xs:base64Binary">
                 <xs:annotation>
-                    <xs:documentation> CAD drawing of the used model (e.g. stored as a '.stl'-File) </xs:documentation>
+                    <xs:documentation>
+                        CAD drawing of the used model (e.g. stored as a '.stl'-File)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -248,49 +309,65 @@
         <xs:sequence>
             <xs:element name="topology" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Definition of the porous media model topology. </xs:documentation>
+                    <xs:documentation>
+                        Definition of the porous media model topology.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="height" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model height. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model height. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="width" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model width. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model width. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="depth" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model depth. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model depth. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="porosity" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model porosity. ( - ) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model porosity. ( - )
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="permeability" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model permeability. (m^2) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model permeability. (m^2)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="periodicity_x" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model periodicity in x-direction.
-                        (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model periodicity in x-direction. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="periodicity_y" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model periodicity in y-direction.
-                        (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model periodicity in y-direction. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="wall_thickness" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the porous media model wall thickness. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the porous media model wall thickness. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -301,55 +378,62 @@
         <xs:sequence>
             <xs:element name="camera">
                 <xs:annotation>
-                    <xs:documentation> Description of the used camera system. </xs:documentation>
+                    <xs:documentation>
+                        Description of the used camera system.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Camera" type="CameraType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Camera" type="CameraType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="laser">
                 <xs:annotation>
-                    <xs:documentation> Description of the used laser system. </xs:documentation>
+                    <xs:documentation>
+                        Description of the used laser system.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Laser" type="LaserType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Laser" type="LaserType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="seeding">
                 <xs:annotation>
-                    <xs:documentation> Description of the used seeding device and seeding material. </xs:documentation>
+                    <xs:documentation>
+                        Description of the used seeding device and seeding material.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Seeding" type="SeedingType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Seeding" type="SeedingType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="optics">
                 <xs:annotation>
-                    <xs:documentation> Description of the used optical devices (e.g. laserarms,
-                        lenses, beamsplitter, sheet optics, ...). </xs:documentation>
+                    <xs:documentation>
+                        Description of the used optical devices (e.g. laserarms, lenses,
+                        beamsplitter, sheet optics, ...).
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Device" type="DeviceType" maxOccurs="unbounded" />
+                        <xs:element name="Device" type="DeviceType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="triggering">
                 <xs:annotation>
-                    <xs:documentation> Description of the used triggering devices. </xs:documentation>
+                    <xs:documentation>
+                        Description of the used triggering devices.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Triggering" type="TriggeringType" maxOccurs="unbounded" />
+                        <xs:element name="Triggering" type="TriggeringType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -361,12 +445,16 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's model. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's model.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -377,22 +465,30 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's model. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's model.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="lens" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the camera lens which were used. </xs:documentation>
+                    <xs:documentation>
+                        Name of the camera lens which were used.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="sensor" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Description of the camera sensor which were used. </xs:documentation>
+                    <xs:documentation>
+                        Description of the camera sensor which were used.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -403,28 +499,37 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="wavelength" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the used wavelength of the laser. (nm) </xs:documentation>
+                    <xs:documentation>
+                        Value of the used wavelength of the laser. (nm)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's model. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's model.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="type" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Type of the used laser (e.g. pulsed or continuous wave laser,
-                        ...) </xs:documentation>
+                    <xs:documentation>
+                        Type of the used laser (e.g. pulsed or continuous wave laser, ...)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="power" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the laser power. (W) </xs:documentation>
+                    <xs:documentation>
+                        Value of the laser power. (W)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -435,18 +540,23 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="particles" type="SeedingParametersType">
                 <xs:annotation>
-                    <xs:documentation> Seeding parameters of the used seeding material during the
-                        experiment. </xs:documentation>
+                    <xs:documentation>
+                        Seeding parameters of the used seeding material during the experiment.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's model. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's model.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -457,28 +567,38 @@
         <xs:sequence>
             <xs:element name="material" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the seeding material. </xs:documentation>
+                    <xs:documentation>
+                        Name of the seeding material.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="phase" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Phase of the seeding material which was used (e.g. solid,
-                        liquid, ...). </xs:documentation>
+                    <xs:documentation>
+                        Phase of the seeding material which was used (e.g. solid,
+                        liquid, ...).
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="density" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the seeding particle density. (kg/m^3) </xs:documentation>
+                    <xs:documentation>
+                        Value of the seeding particle density. (kg/m^3)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="particle_size" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value or span of the seeding particle diameter. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value or span of the seeding particle diameter. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="kinematic_viscosity" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the seeding particle kinematic viscosity (m^2/s) </xs:documentation>
+                    <xs:documentation>
+                        Value of the seeding particle kinematic viscosity (m^2/s)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -489,18 +609,24 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="recording_mode" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Type of recording mode during the experiment (e.g.
-                        time-based, cyclic time-based, ...). </xs:documentation>
+                    <xs:documentation>
+                        Type of recording mode during the experiment (e.g. time-based, cyclic
+                        time-based, ...).
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="model" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the device's model. </xs:documentation>
+                    <xs:documentation>
+                        Name of the device's model.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -511,38 +637,45 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the experiment.It should contain all relevant
-                        information about the experiment. </xs:documentation>
+                    <xs:documentation>
+                        Name of the experiment.It should contain all relevant information
+                        about the experiment.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="calibration">
                 <xs:annotation>
-                    <xs:documentation> Calibration that has been done before the actual experiment. </xs:documentation>
+                    <xs:documentation>
+                        Calibration that has been done before the actual experiment.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Calibration" type="CalibrationType" maxOccurs="unbounded" />
+                        <xs:element name="Calibration" type="CalibrationType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="recordings">
                 <xs:annotation>
-                    <xs:documentation> Recordings that have been done in the course of the
-                        experiment. </xs:documentation>
+                    <xs:documentation>
+                        Recordings that have been done in the course of the experiment.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Recording" type="RecordingType" maxOccurs="unbounded" />
+                        <xs:element name="Recording" type="RecordingType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="processing_steps">
                 <xs:annotation>
-                    <xs:documentation> Processing steps and processed video data of the experiment </xs:documentation>
+                    <xs:documentation>
+                        Processing steps and processed video data of the experiment
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="ProcessStep" type="ProcessStepType" maxOccurs="unbounded" />
+                        <xs:element name="ProcessStep" type="ProcessStepType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -554,31 +687,41 @@
         <xs:sequence>
             <xs:element name="calibration_type" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Specify the calibration plate and/or the calibration facility
-                        which was used for calibration. </xs:documentation>
+                    <xs:documentation>
+                        Specify the calibration plate and/or the calibration facility which
+                        was used for calibration.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="scale_factor" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the scale factor of the recordings.The amount of
-                        pixels corresponding to the length of 1 mm. (px/mm) </xs:documentation>
+                    <xs:documentation>
+                        Value of the scale factor of the recordings.The amount of pixels
+                        corresponding to the length of 1 mm. (px/mm)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="camera_position_translation" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the translation of the camera position relative to
-                        the calibration plate. (m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the translation of the camera position relative to the
+                        calibration plate. (m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="camera_position_rotation" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the rotation of the camera position relative to the
-                        calibration plate. (°) </xs:documentation>
+                    <xs:documentation>
+                        Value of the rotation of the camera position relative to the
+                        calibration plate. (°)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="calibration_image" type="xs:base64Binary">
                 <xs:annotation>
-                    <xs:documentation> The actual calibration image which was used. </xs:documentation>
+                    <xs:documentation>
+                        The actual calibration image which was used.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -589,36 +732,98 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Full name of the processing step. </xs:documentation>
+                    <xs:documentation>
+                        Full name of the processing step.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="operation_list" type="xs:string" maxOccurs="unbounded">
+            <xs:element name="operation_list">
                 <xs:annotation>
-                    <xs:documentation> List of processing steps carried out with the processing
-                        software. </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="processed_recording">
-                <xs:annotation>
-                    <xs:documentation> Resulting video after applying the process steps and the raw
-                        video. </xs:documentation>
+                    <xs:documentation>
+                        List of processing steps carried out with the processing software.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Recording" type="RecordingType" maxOccurs="unbounded" />
+                        <xs:element name="Operation" type="OperationType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="processed_recording">
+                <xs:annotation>
+                    <xs:documentation>
+                        Resulting video after applying the process steps and the raw video.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Recording" type="RecordingType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="software">
                 <xs:annotation>
-                    <xs:documentation> Software that has been used to perform the processing steps. </xs:documentation>
+                    <xs:documentation>
+                        Software that has been used to perform the processing steps.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Software" type="SoftwareType" maxOccurs="unbounded"
-                            minOccurs="1" />
+                        <xs:element name="Software" type="SoftwareType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Operation Definition -->
+    <xs:complexType name="OperationType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the operation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Description of the operation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parameters">
+                <xs:annotation>
+                    <xs:documentation>
+                        Parameters of the operation.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Parameter Definition -->
+    <xs:complexType name="ParameterType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Value of the parameter.
+                    </xs:documentation>
+                </xs:annotation>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -628,18 +833,23 @@
         <xs:sequence>
             <xs:element name="manufacturer" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the used recording or processing software
-                        manufacturer. </xs:documentation>
+                    <xs:documentation>
+                        Name of the used recording or processing software manufacturer.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="name" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Name of the used recording or processing software. </xs:documentation>
+                    <xs:documentation>
+                        Name of the used recording or processing software.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="version" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Version of the used recording or processing software. </xs:documentation>
+                    <xs:documentation>
+                        Version of the used recording or processing software.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -650,32 +860,44 @@
         <xs:sequence>
             <xs:element name="time" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the investigated time period. (s) </xs:documentation>
+                    <xs:documentation>
+                        Value of the investigated time period. (s)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="repetition_rate" type="xs:float">
                 <xs:annotation>
-                    <xs:documentation> Value of the recording repetition rate. (Hz) </xs:documentation>
+                    <xs:documentation>
+                        Value of the recording repetition rate. (Hz)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="field_of_view" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Value of the field of view. (m x m) </xs:documentation>
+                    <xs:documentation>
+                        Value of the field of view. (m x m)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="n_frames" type="xs:integer">
                 <xs:annotation>
-                    <xs:documentation> Number of frames found in this video. </xs:documentation>
+                    <xs:documentation>
+                        Number of frames found in this video.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="frames" type="xs:base64Binary">
                 <xs:annotation>
-                    <xs:documentation> The actual Videoframes of the raw video </xs:documentation>
+                    <xs:documentation>
+                        The actual Videoframes of the raw video
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="location" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation> Specify the local filepath to the location of the recordings. </xs:documentation>
+                    <xs:documentation>
+                        Specify the local filepath to the location of the recordings.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>

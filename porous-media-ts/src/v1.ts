@@ -436,7 +436,7 @@ export const ProcessStepSchema = z.lazy(() => JsonLdSchema.extend({
   name: z.string().describe(`
     Full name of the processing step.
   `),
-  operation_list: z.array(z.string()).describe(`
+  operation_list: z.array(OperationSchema).describe(`
     List of processing steps carried out with the processing software.
   `),
   processed_recording: z.array(RecordingSchema).describe(`
@@ -448,6 +448,40 @@ export const ProcessStepSchema = z.lazy(() => JsonLdSchema.extend({
 }));
 
 export type ProcessStep = z.infer<typeof ProcessStepSchema>;
+
+// The Operation section defines the specific operations performed during
+// the data processing.It includes the name of the operation, its
+// description, and the parameters used in the operation.
+export const OperationSchema = z.lazy(() => JsonLdSchema.extend({
+  name: z.string().describe(`
+    Name of the operation.
+  `),
+  description: z.string().nullable().describe(`
+    Description of the operation.
+  `),
+  parameters: z.array(ParameterSchema).describe(`
+    Parameters of the operation.
+  `),
+}));
+
+export type Operation = z.infer<typeof OperationSchema>;
+
+// The Parameter section defines the specific parameters used in various
+// operations during the data processing. It includes the name of
+// the parameter and its corresponding value, which can be a float,
+// string, or boolean. This information is crucial for understanding
+// the exact configuration of each operation and ensuring
+// reproducibility of the processing steps.
+export const ParameterSchema = z.lazy(() => JsonLdSchema.extend({
+  name: z.string().describe(`
+    Name of the parameter.
+  `),
+  value: z.union([z.number(), z.string(), z.boolean()]).nullable().describe(`
+    Value of the parameter.
+  `),
+}));
+
+export type Parameter = z.infer<typeof ParameterSchema>;
 
 // The Software section serves as a container for general information
 // about the software utilized in the experiment.It includes details

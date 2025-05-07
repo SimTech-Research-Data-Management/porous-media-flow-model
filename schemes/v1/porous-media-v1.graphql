@@ -5,8 +5,18 @@
 
 
 # Scalar wrapper types
+type FloatValue {
+  value: Float!
+}
+type StringValue {
+  value: String!
+}
+type BooleanValue {
+  value: Boolean!
+}
 
 # Union type definitions
+union ParameterValue = FloatValue | StringValue | BooleanValue
 
 # PorousMedia Type definitions
 type Metadata {
@@ -134,9 +144,20 @@ type Calibration {
 
 type ProcessStep {
   name: String!
-  operation_list: [String]
+  operation_list: [Operation]
   processed_recording: [Recording]
   software: [Software]!
+}
+
+type Operation {
+  name: String!
+  description: String
+  parameters: [Parameter]
+}
+
+type Parameter {
+  name: String!
+  value: ParameterValue
 }
 
 type Software {
@@ -264,6 +285,15 @@ type Query {
   # ProcessStep queries
   allProcessSteps: [ProcessStep]
   processstepByName(name: String): [ProcessStep]
+
+  # Operation queries
+  allOperations: [Operation]
+  operationByName(name: String): [Operation]
+  operationByDescription(description: String): [Operation]
+
+  # Parameter queries
+  allParameters: [Parameter]
+  parameterByName(name: String): [Parameter]
 
   # Software queries
   allSoftwares: [Software]

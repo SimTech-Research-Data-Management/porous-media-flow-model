@@ -5,6 +5,11 @@
 
 package porousmedia
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 //
 // Type definitions
 //
@@ -244,9 +249,34 @@ type Calibration struct {
 type ProcessStep struct {
 	Id                 int64       `json:"-" gorm:"primaryKey;autoIncrement"`
 	Name               string      `json:"name" `
-	OperationList      []string    `json:"operation_list,omitempty" gorm:"serializer:json;"`
+	OperationList      []Operation `json:"operation_list,omitempty" gorm:"many2many:processstep_operation_list;"`
 	ProcessedRecording []Recording `json:"processed_recording,omitempty" gorm:"many2many:processstep_processed_recording;"`
 	Software           []Software  `json:"software" gorm:"many2many:processstep_software;"`
+}
+
+// Operation
+//
+// The Operation section defines the specific operations performed during the data
+// processing.It includes the name of the operation, its description, and the
+// parameters used in the operation.
+type Operation struct {
+	Id          int64       `json:"-" gorm:"primaryKey;autoIncrement"`
+	Name        string      `json:"name" `
+	Description string      `json:"description,omitempty" `
+	Parameters  []Parameter `json:"parameters,omitempty" gorm:"many2many:operation_parameters;"`
+}
+
+// Parameter
+//
+// The Parameter section defines the specific parameters used in various operations
+// during the data processing. It includes the name of the parameter and
+// its corresponding value, which can be a float, string, or boolean. This
+// information is crucial for understanding the exact configuration of each
+// operation and ensuring reproducibility of the processing steps.
+type Parameter struct {
+	Id    int64              `json:"-" gorm:"primaryKey;autoIncrement"`
+	Name  string             `json:"name" `
+	Value ParameterValueType `json:"value,omitempty" `
 }
 
 // Software
@@ -280,4 +310,52 @@ type Recording struct {
 	NFrames        int64   `json:"n_frames,omitempty" `
 	Frames         []byte  `json:"frames,omitempty" `
 	Location       string  `json:"location,omitempty" `
+}
+
+// ParameterValueType represents a union type that can hold any of the following types:
+// - float
+// - string
+// - boolean
+type ParameterValueType struct {
+	Float   float64
+	String  string
+	Boolean bool
+}
+
+// UnmarshalJSON implements custom JSON unmarshaling for ParameterValueType
+func (t *ParameterValueType) UnmarshalJSON(data []byte) error {
+	// Reset existing values
+	t.Float = 0
+	t.String = ""
+	t.Boolean = false
+	var floatValue float64
+	if err := json.Unmarshal(data, &floatValue); err == nil {
+		t.Float = floatValue
+		return nil
+	}
+	var stringValue string
+	if err := json.Unmarshal(data, &stringValue); err == nil {
+		t.String = stringValue
+		return nil
+	}
+	var boolValue bool
+	if err := json.Unmarshal(data, &boolValue); err == nil {
+		t.Boolean = boolValue
+		return nil
+	}
+	return fmt.Errorf("ParameterValueType: data is neither float, string, boolean")
+}
+
+// MarshalJSON implements custom JSON marshaling for ParameterValueType
+func (t ParameterValueType) MarshalJSON() ([]byte, error) {
+	if t.Float != 0 {
+		return json.Marshal(t.Float)
+	}
+	if t.String != "" {
+		return json.Marshal(t.String)
+	}
+	if t.Boolean {
+		return json.Marshal(t.Boolean)
+	}
+	return []byte("null"), nil
 }

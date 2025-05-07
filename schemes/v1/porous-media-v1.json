@@ -474,6 +474,66 @@
       ],
       "additionalProperties": false
     },
+    "Operation": {
+      "title": "Operation",
+      "type": "object",
+      "description": "The Operation section defines the specific operations performed during the data processing.It includes the name of the operation, its description, and the parameters used in the operation.",
+      "properties": {
+        "description": {
+          "title": "description",
+          "type": "string",
+          "description": "Description of the operation."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the operation."
+        },
+        "parameters": {
+          "title": "parameters",
+          "type": "array",
+          "description": "Parameters of the operation.",
+          "items": {
+            "$ref": "#/$defs/Parameter"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "Parameter": {
+      "title": "Parameter",
+      "type": "object",
+      "description": "The Parameter section defines the specific parameters used in various operations during the data processing. It includes the name of the parameter and its corresponding value, which can be a float, string, or boolean. This information is crucial for understanding the exact configuration of each operation and ensuring reproducibility of the processing steps.",
+      "properties": {
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the parameter."
+        },
+        "value": {
+          "title": "value",
+          "description": "Value of the parameter.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
     "PorousMedia": {
       "title": "PorousMedia",
       "type": "object",
@@ -549,7 +609,7 @@
           "type": "array",
           "description": "List of processing steps carried out with the processing software.",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/Operation"
           }
         },
         "processed_recording": {

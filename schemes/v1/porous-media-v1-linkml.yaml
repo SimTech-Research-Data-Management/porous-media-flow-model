@@ -324,6 +324,7 @@ classes:
         required: true
       operation_list:
         description: List of processing steps carried out with the processing software.
+        range: Operation
         multivalued: true
       processed_recording:
         description: Resulting video after applying the process steps and the raw video.
@@ -334,6 +335,27 @@ classes:
         required: true
         range: Software
         multivalued: true
+  Operation:
+    description: The Operation section defines the specific operations performed during the data processing.It includes the name of the operation, its description, and the parameters used in the operation.
+    attributes:
+      name:
+        description: Name of the operation.
+        required: true
+      description:
+        description: Description of the operation.
+      parameters:
+        description: Parameters of the operation.
+        range: Parameter
+        multivalued: true
+  Parameter:
+    description: The Parameter section defines the specific parameters used in various operations during the data processing. It includes the name of the parameter and its corresponding value, which can be a float, string, or boolean. This information is crucial for understanding the exact configuration of each operation and ensuring reproducibility of the processing steps.
+    attributes:
+      name:
+        description: Name of the parameter.
+        required: true
+      value:
+        description: Value of the parameter.
+        range: float
   Software:
     description: The Software section serves as a container for general information about the software utilized in the experiment.It includes details such as the name of the manufacturer, the specific software name, and the version used to generate the dataset.These details provide important context for the experiment, allowing for reproducibility and facilitating a clear understanding of the software environment in which the data analysis and processing were performed.
     attributes:

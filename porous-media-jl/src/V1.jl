@@ -3,7 +3,7 @@
 # WARNING: This is an auto-generated file.
 # Do not edit directly - any changes will be overwritten.
 
-module PorousMediaV1
+module Porousmedia
 
 using JSON3
 using StructTypes
@@ -40,17 +40,17 @@ Base.@kwdef mutable struct Recording
     """
     Number of frames found in this video.
     """
-    n_frames::Union{Int64,Nothing} = nothing
+    n_frames::Union{Int64, Nothing} = nothing
 
     """
     The actual Videoframes of the raw video
     """
-    frames::Union{bytes,Nothing} = nothing
+    frames::Union{bytes, Nothing} = nothing
 
     """
     Specify the local filepath to the location of the recordings.
     """
-    location::Union{String,Nothing} = nothing
+    location::Union{String, Nothing} = nothing
 
 end
 
@@ -79,11 +79,61 @@ Base.@kwdef mutable struct Software
     """
     Version of the used recording or processing software.
     """
-    version::Union{String,Nothing} = nothing
+    version::Union{String, Nothing} = nothing
 
 end
 
 export Software
+
+"""
+The Parameter section defines the specific parameters used in various
+operations during the data processing. It includes the name of the
+parameter and its corresponding value, which can be a float, string,
+or boolean. This information is crucial for understanding the exact
+configuration of each operation and ensuring reproducibility of the
+processing steps.
+"""
+Base.@kwdef mutable struct Parameter
+    """
+    Name of the parameter.
+    """
+    name::String
+
+    """
+    Value of the parameter.
+    """
+    value::Union{
+    ParameterValueType, Nothing} = nothing
+
+end
+
+export Parameter
+
+"""
+The Operation section defines the specific operations performed
+during the data processing.It includes the name of the operation, its
+description, and the parameters used in the operation.
+"""
+Base.@kwdef mutable struct Operation
+    """
+    Name of the operation.
+    """
+    name::String
+
+    """
+    Description of the operation.
+    """
+    description::Union{String, Nothing} = nothing
+
+    """
+    Parameters of the operation.
+    """
+    parameters::Union{Vector{
+    Parameter}, Nothing} = nothing
+
+end
+
+export Operation
 
 """
 The Process Step outlines the specific processing steps applied
@@ -104,19 +154,20 @@ Base.@kwdef mutable struct ProcessStep
     """
     List of processing steps carried out with the processing software.
     """
-    operation_list::Union{Vector{String},Nothing} = nothing
+    operation_list::Union{Vector{
+    Operation}, Nothing} = nothing
 
     """
     Resulting video after applying the process steps and the raw video.
     """
     processed_recording::Union{Vector{
-            Recording},Nothing} = nothing
+    Recording}, Nothing} = nothing
 
     """
     Software that has been used to perform the processing steps.
     """
     software::Vector{
-        Software}
+    Software}
 
 end
 
@@ -145,18 +196,18 @@ Base.@kwdef mutable struct Calibration
     Value of the translation of the camera position relative to the
     calibration plate. (m)
     """
-    camera_position_translation::Union{Float64,Nothing} = nothing
+    camera_position_translation::Union{Float64, Nothing} = nothing
 
     """
     Value of the rotation of the camera position relative to the
     calibration plate. (°)
     """
-    camera_position_rotation::Union{Float64,Nothing} = nothing
+    camera_position_rotation::Union{Float64, Nothing} = nothing
 
     """
     The actual calibration image which was used.
     """
-    calibration_image::Union{bytes,Nothing} = nothing
+    calibration_image::Union{bytes, Nothing} = nothing
 
 end
 
@@ -177,19 +228,19 @@ Base.@kwdef mutable struct Measurement
     Calibration that has been done before the actual experiment.
     """
     calibration::Union{Vector{
-            Calibration},Nothing} = nothing
+    Calibration}, Nothing} = nothing
 
     """
     Recordings that have been done in the course of the experiment.
     """
     recordings::Union{Vector{
-            Recording},Nothing} = nothing
+    Recording}, Nothing} = nothing
 
     """
     Processing steps and processed video data of the experiment
     """
     processing_steps::Union{Vector{
-            ProcessStep},Nothing} = nothing
+    ProcessStep}, Nothing} = nothing
 
 end
 
@@ -214,7 +265,7 @@ Base.@kwdef mutable struct Triggering
     """
     Name of the device's model.
     """
-    model::Union{String,Nothing} = nothing
+    model::Union{String, Nothing} = nothing
 
 end
 
@@ -253,7 +304,7 @@ Base.@kwdef mutable struct SeedingParameters
     """
     Value of the seeding particle kinematic viscosity (m^2/s)
     """
-    kinematic_viscosity::Union{Float64,Nothing} = nothing
+    kinematic_viscosity::Union{Float64, Nothing} = nothing
 
 end
 
@@ -279,7 +330,7 @@ Base.@kwdef mutable struct Seeding
     """
     Name of the device's model.
     """
-    model::Union{String,Nothing} = nothing
+    model::Union{String, Nothing} = nothing
 
 end
 
@@ -303,17 +354,17 @@ Base.@kwdef mutable struct Laser
     """
     Name of the device's model.
     """
-    model::Union{String,Nothing} = nothing
+    model::Union{String, Nothing} = nothing
 
     """
     Type of the used laser (e.g. pulsed or continuous wave laser, ...)
     """
-    type::Union{String,Nothing} = nothing
+    type::Union{String, Nothing} = nothing
 
     """
     Value of the laser power. (W)
     """
-    power::Union{Float64,Nothing} = nothing
+    power::Union{Float64, Nothing} = nothing
 
 end
 
@@ -332,17 +383,17 @@ Base.@kwdef mutable struct Camera
     """
     Name of the device's model.
     """
-    model::Union{String,Nothing} = nothing
+    model::Union{String, Nothing} = nothing
 
     """
     Name of the camera lens which were used.
     """
-    lens::Union{String,Nothing} = nothing
+    lens::Union{String, Nothing} = nothing
 
     """
     Description of the camera sensor which were used.
     """
-    sensor::Union{String,Nothing} = nothing
+    sensor::Union{String, Nothing} = nothing
 
 end
 
@@ -362,7 +413,7 @@ Base.@kwdef mutable struct Device
     """
     Name of the device's model.
     """
-    model::Union{String,Nothing} = nothing
+    model::Union{String, Nothing} = nothing
 
 end
 
@@ -378,32 +429,32 @@ Base.@kwdef mutable struct Hardware
     Description of the used camera system.
     """
     camera::Vector{
-        Camera}
+    Camera}
 
     """
     Description of the used laser system.
     """
     laser::Vector{
-        Laser}
+    Laser}
 
     """
     Description of the used seeding device and seeding material.
     """
     seeding::Vector{
-        Seeding}
+    Seeding}
 
     """
     Description of the used optical devices (e.g. laserarms, lenses,
     beamsplitter, sheet optics, ...).
     """
     optics::Union{Vector{
-            Device},Nothing} = nothing
+    Device}, Nothing} = nothing
 
     """
     Description of the used triggering devices.
     """
     triggering::Union{Vector{
-            Triggering},Nothing} = nothing
+    Triggering}, Nothing} = nothing
 
 end
 
@@ -444,22 +495,22 @@ Base.@kwdef mutable struct PorousMedia
     """
     Value of the porous media model permeability. (m^2)
     """
-    permeability::Union{Float64,Nothing} = nothing
+    permeability::Union{Float64, Nothing} = nothing
 
     """
     Value of the porous media model periodicity in x-direction. (m)
     """
-    periodicity_x::Union{Float64,Nothing} = nothing
+    periodicity_x::Union{Float64, Nothing} = nothing
 
     """
     Value of the porous media model periodicity in y-direction. (m)
     """
-    periodicity_y::Union{Float64,Nothing} = nothing
+    periodicity_y::Union{Float64, Nothing} = nothing
 
     """
     Value of the porous media model wall thickness. (m)
     """
-    wall_thickness::Union{Float64,Nothing} = nothing
+    wall_thickness::Union{Float64, Nothing} = nothing
 
 end
 
@@ -489,12 +540,12 @@ Base.@kwdef mutable struct Model
     Description of porous media parameters
     """
     porous_media::Union{
-        PorousMedia,Nothing} = nothing
+    PorousMedia, Nothing} = nothing
 
     """
     CAD drawing of the used model (e.g. stored as a '.stl'-File)
     """
-    cad_model::Union{bytes,Nothing} = nothing
+    cad_model::Union{bytes, Nothing} = nothing
 
 end
 
@@ -579,22 +630,22 @@ Base.@kwdef mutable struct FreeFlow
     """
     Value of the channel height, assuming a rectangular channel. (m)
     """
-    height::Union{Float64,Nothing} = nothing
+    height::Union{Float64, Nothing} = nothing
 
     """
     Value of the flow channel width, assuming a rectangular channel. (m)
     """
-    width::Union{Float64,Nothing} = nothing
+    width::Union{Float64, Nothing} = nothing
 
     """
     Value of the flow channel depth, assuming a rectangular channel. (m)
     """
-    depth::Union{Float64,Nothing} = nothing
+    depth::Union{Float64, Nothing} = nothing
 
     """
     Value of the flow channel diameter, assuming a round channel. (m)
     """
-    diameter::Union{Float64,Nothing} = nothing
+    diameter::Union{Float64, Nothing} = nothing
 
 end
 
@@ -625,7 +676,7 @@ Base.@kwdef mutable struct Author
     """
     Phone number of the author.
     """
-    phone::Union{Int64,Nothing} = nothing
+    phone::Union{Int64, Nothing} = nothing
 
 end
 
@@ -663,7 +714,7 @@ Base.@kwdef mutable struct Metadata
     Persons who worked on the dataset.
     """
     authors::Vector{
-        Author}
+    Author}
 
     """
     Research subjects covered by the dataset.
@@ -674,7 +725,7 @@ Base.@kwdef mutable struct Metadata
     Define the actual model which was investigated with the dataset.
     """
     model::Union{
-        Model,Nothing} = nothing
+    Model, Nothing} = nothing
 
     """
     Descriptive keywords to describe the dataset.
@@ -685,24 +736,44 @@ Base.@kwdef mutable struct Metadata
     Experimental devices used in the dataset.
     """
     devices::Vector{
-        Hardware}
+    Hardware}
 
     """
     Free flow conditions during the experiment
     """
     free_flow::Union{
-        FreeFlow,Nothing} = nothing
+    FreeFlow, Nothing} = nothing
 
     """
     Contains all measurements & recordings which were conducted during
     the experiment
     """
     measurements::Union{Vector{
-            Measurement},Nothing} = nothing
+    Measurement}, Nothing} = nothing
 
 end
 
 export Metadata
 
+
+#=
+  Union Type Definitions
+  ---------------------
+  Custom union types for fields that can accept multiple types.
+=#
+
+"""
+Union type for Parameter.value
+"""
+abstract type ParameterValueType end
+struct ParameterValueFloat <: ParameterValueType
+    value::Float64
+end
+struct ParameterValueString <: ParameterValueType
+    value::String
+end
+struct ParameterValueBoolean <: ParameterValueType
+    value::Bool
+end
 
 end # module porousmedia

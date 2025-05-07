@@ -13,5 +13,5 @@ mk-docs = { out = "docs/versions/*.md", nav = "true", per-spec = true }
 golang = { out = "porous-media-go/src/*.go", per-spec = true, gorm = "true" }
 typescript-zod = { out = "porous-media-ts/src/*.ts", per-spec = true }
 julia = { out = "porous-media-jl/src/*.jl", per-spec = true, fname-case = "Pascal" }
-python-pydantic = { out = "porous-media-py/src/*.py", per-spec = true }
+python-pydantic = { out = "porous-media-py/porousmedia/versions/*.py", per-spec = true }
 mermaid = { out = "diagrams/*.md", per-spec = true }
