@@ -4,6 +4,8 @@ Porous Media Flow Model is a comprehensive framework for storing and analyzing d
 
 ![Streamline plot](streamlineplot_Re8500_h10.png "Streamline plot of a rod geometry protruding 10 mm into the turbulent flow at a Reynolds number of 8500.")
 
+*Figure: Streamline plot of a rod geometry protruding 10 mm into the turbulent flow at a Reynolds number of 8500.
+
 A key focus of this framework is the integration and analysis of data obtained through Particle Image Velocimetry (PIV). PIV is an optical, particle-based measurement technique that provides instantaneous velocity measurements. Small tracer particles are seeded into the turbulent flow and illuminated with a laser sheet. By capturing two consecutive images, the displacement of particles is analyzed, resulting in time and space-resolved velocity profiles and flow structures.
 
 Due to the high spatial and temporal resolution of PIV data, the technique generates enormous amounts of raw data, which presents challenges in terms of storage and data handling. To adress this, the framework includes a data model that minimizes storage requirements while ensuring the reproducibility and accessibility of data for numerical simulations and further investigations.
